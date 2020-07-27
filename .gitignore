@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # eclipse
 bin
 *.launch
@@ -20,3 +21,23 @@ build
 # other
 eclipse
 run
+=======
+# Gradle
+.gradle
+/build/
+
+# IntelliJ
+/out/
+/run/
+/.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.classpath
+.settings
+.project
+*.launch
+bin/
+>>>>>>> 897de0450eece2a5b341157dcdf85d4d75b97159
