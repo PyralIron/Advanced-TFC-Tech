@@ -1,0 +1,18 @@
+# Gradle
+.gradle
+/build/
+
+# IntelliJ
+/out/
+/run/
+/.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.classpath
+.settings
+.project
+*.launch
+bin/
