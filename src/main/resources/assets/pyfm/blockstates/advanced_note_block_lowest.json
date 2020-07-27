@@ -1,0 +1,19 @@
+{
+    "variants": {
+        "normal": {"model":"pyfm:advanced_note_block_lowest_0"},
+        "note=0": { "model": "pyfm:advanced_note_block_lowest_0" },
+        "note=1": { "model": "pyfm:advanced_note_block_lowest_1" },
+        "note=2": { "model": "pyfm:advanced_note_block_lowest_2" },
+        "note=3": { "model": "pyfm:advanced_note_block_lowest_3" },
+        "note=4": { "model": "pyfm:advanced_note_block_lowest_4" },
+        "note=5": { "model": "pyfm:advanced_note_block_lowest_5" },
+        "note=6": { "model": "pyfm:advanced_note_block_lowest_6" },
+        "note=7": { "model": "pyfm:advanced_note_block_lowest_7" },
+        "note=8": { "model": "pyfm:advanced_note_block_lowest_8" },
+        "note=9": { "model": "pyfm:advanced_note_block_lowest_9" },
+        "note=10": { "model": "pyfm:advanced_note_block_lowest_10" },
+        "note=11": { "model": "pyfm:advanced_note_block_lowest_11" },
+        "note=12": { "model": "pyfm:advanced_note_block_lowest_0" }
+        
+    }
+}

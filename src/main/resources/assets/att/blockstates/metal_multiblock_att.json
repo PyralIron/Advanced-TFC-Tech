@@ -1,0 +1,104 @@
+{
+  "forge_marker": 1,
+  "defaults":
+  {
+
+    "textures": {
+      "particle": "immersiveengineering:blocks/storage_steel"
+    }
+  },
+  "variants":
+  {
+    "normal": [{
+      "model": "pyfm:advanced_note_block_high_0",
+      "transform": {
+        "scale": 1.875,
+        "rotation": [
+          {
+            "x": 20
+          },
+          {
+            "y": -45
+          }
+        ],
+        "translation": [
+          0,
+          -0.25,
+          0
+        ]
+      }
+    }],
+    "inventory": [{
+      "model": "pyfm:advanced_note_block_high_0",
+      "transform": {
+        "scale": 1.875,
+        "rotation": [
+          {
+            "x": 20
+          },
+          {
+            "y": -45
+          }
+        ],
+        "translation": [
+          0,
+          -0.25,
+          0
+        ]
+      }
+    }],
+    "type":
+    {
+      "powerloom_parent": {
+
+      },
+      "powerloom": {
+
+      }
+    },
+    "facing":
+    {
+      "north": { "transform": {
+        "rotation": {"y": 0 }
+      }},
+      "south": { "transform": {
+        "rotation": {"y": 180 }
+      }},
+      "west": { "transform": {
+        "rotation": {"y": 90 }
+      }},
+      "east": { "transform": {
+        "rotation": {"y": -90 }
+      }}
+    },
+    "_0multiblockslave":
+    {
+      "false":{
+
+      },
+      "true":{
+        "model": "pyfm:advanced_note_block_high_0"
+      }
+    },
+    "_1dynamicrender":
+    {
+      "false":{
+        "model": "pyfm:advanced_note_block_high_0"
+
+      },
+      "true":{
+        "model": "pyfm:advanced_note_block_high_0"
+
+      }
+    },
+    "boolean0":
+    {
+      "false":{
+        "model": "pyfm:advanced_note_block_high_0"
+      },
+      "true": {
+        "model": "pyfm:advanced_note_block_high_0"
+      }
+    }
+  }
+}

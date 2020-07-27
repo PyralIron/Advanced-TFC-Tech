@@ -1,0 +1,6 @@
+{
+   "parent": "block/cube_all",
+   "textures": {
+       "all": "pyfm:blocks/advanced_note_block_3_10"
+   }
+}

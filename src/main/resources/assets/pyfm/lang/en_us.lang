@@ -1,0 +1,11 @@
+tile.grass_block_pyral.name=Grass Block
+tile.dirt_block_pyral.name=Dirt
+tile.dirt_block_pyral.default.name=Dirt
+tile.dirt_block_pyral.coarse.name=Coarse Dirt
+tile.dirt_block_pyral.podzol.name=Podzol
+tile.advanced_note_block_lowest.name=Advanced Note Block Lowest Octave
+tile.advanced_note_block_lower.name=Advanced Note Block Lower Octave
+tile.advanced_note_block_low.name=Advanced Note Block Low Octave
+tile.advanced_note_block_mid.name=Advanced Note Block Middle Octave
+tile.advanced_note_block_high.name=Advanced Note Block High Octave
+tile.advanced_note_block_higher.name=Advanced Note Block Higher Octave

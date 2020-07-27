@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "snowy=false": { "model": "pyfm:dirt_block_pyral" },
+        "snowy=true": { "model": "pyfm:dirt_block_pyral" }
+    }
+}

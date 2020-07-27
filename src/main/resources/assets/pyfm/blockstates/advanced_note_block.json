@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "pyfm:advanced_note_block" }
+    }
+}

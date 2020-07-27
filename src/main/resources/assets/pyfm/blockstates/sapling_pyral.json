@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "stage=0,type=oak": { "model": "pyfm:oak_sapling" },
+        "stage=1,type=oak": { "model": "pyfm:oak_sapling" },
+        "stage=0,type=spruce": { "model": "pyfm:oak_sapling" },
+        "stage=1,type=spruce": { "model": "pyfm:oak_sapling" },
+        "stage=0,type=birch": { "model": "pyfm:oak_sapling" },
+        "stage=1,type=birch": { "model": "pyfm:oak_sapling" },
+        "stage=0,type=jungle": { "model": "pyfm:oak_sapling" },
+        "stage=1,type=jungle": { "model": "pyfm:oak_sapling" }
+    }
+}

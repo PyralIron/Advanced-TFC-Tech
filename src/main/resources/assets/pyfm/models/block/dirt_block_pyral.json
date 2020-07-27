@@ -1,0 +1,6 @@
+{
+   "parent": "block/cube_all",
+   "textures": {
+       "all": "pyfm:blocks/dirt_block_pyral"
+   }
+}

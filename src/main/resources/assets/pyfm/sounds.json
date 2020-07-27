@@ -1,0 +1,228 @@
+{
+  "open_chest": {
+    "category": "block",
+    "subtitle": "mymod.subtitle.openChest",
+    "sounds": [ "mymod:open_chest_sound_file" ]
+  },
+  "epic_music": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "mymod:music/epic_music",
+        "stream": true
+      }
+    ]
+  },
+  "note_block_lowest_lower": {
+    "category": "record",
+    "sounds": [ "pyfm:note_block_lowest_lower" ]
+  },
+  "note_block_low_mid": {
+    "category": "record",
+    "sounds": [ "pyfm:note_block_low_mid" ]
+  },
+  "note_block_high_higher": {
+    "category": "record",
+    "sounds": [ "pyfm:note_block_high_higher" ]
+  },
+  "note_block_high": {
+    "category": "record",
+    "sounds": [ "pyfm:note_block_high" ]
+  },
+  "note_block_higher": {
+    "category": "record",
+    "sounds": [ "pyfm:note_block_higher" ]
+  },
+  "C2": {
+    "category": "record",
+    "sounds": [ "pyfm:C2" ]
+  },
+  "Cs2": {
+    "category": "record",
+    "sounds": [ "pyfm:Cs2" ]
+  },
+  "D2": {
+    "category": "record",
+    "sounds": [ "pyfm:D2" ]
+  },
+  "Ds2": {
+    "category": "record",
+    "sounds": [ "pyfm:Ds2" ]
+  },
+  "E2": {
+    "category": "record",
+    "sounds": [ "pyfm:E2" ]
+  },
+  "F2": {
+    "category": "record",
+    "sounds": [ "pyfm:F2" ]
+  },
+  "Fs2": {
+    "category": "record",
+    "sounds": [ "pyfm:Fs2" ]
+  },
+  "G2": {
+    "category": "record",
+    "sounds": [ "pyfm:G2" ]
+  },
+  "Gs2": {
+    "category": "record",
+    "sounds": [ "pyfm:Gs2" ]
+  },
+  "A2": {
+    "category": "record",
+    "sounds": [ "pyfm:A2" ]
+  },
+  "As2": {
+    "category": "record",
+    "sounds": [ "pyfm:As2" ]
+  },
+  "B2": {
+    "category": "record",
+    "sounds": [ "pyfm:B2" ]
+  },
+  "C3": {
+    "category": "record",
+    "sounds": [ "pyfm:C3" ]
+  },
+  "Cs3": {
+    "category": "record",
+    "sounds": [ "pyfm:Cs3" ]
+  },
+  "D3": {
+    "category": "record",
+    "sounds": [ "pyfm:D3" ]
+  },
+  "Ds3": {
+    "category": "record",
+    "sounds": [ "pyfm:Ds3" ]
+  },
+  "E3": {
+    "category": "record",
+    "sounds": [ "pyfm:E3" ]
+  },
+  "F3": {
+    "category": "record",
+    "sounds": [ "pyfm:F3" ]
+  },
+  "Fs3": {
+    "category": "record",
+    "sounds": [ "pyfm:Fs3" ]
+  },
+  "G3": {
+    "category": "record",
+    "sounds": [ "pyfm:G3" ]
+  },
+  "Gs3": {
+    "category": "record",
+    "sounds": [ "pyfm:Gs3" ]
+  },
+  "A3": {
+    "category": "record",
+    "sounds": [ "pyfm:A3" ]
+  },
+  "As3": {
+    "category": "record",
+    "sounds": [ "pyfm:As3" ]
+  },
+  "B3": {
+    "category": "record",
+    "sounds": [ "pyfm:B3" ]
+  },
+  "C4": {
+    "category": "record",
+    "sounds": [ "pyfm:C4" ]
+  },
+  "Cs4": {
+    "category": "record",
+    "sounds": [ "pyfm:Cs4" ]
+  },
+  "D4": {
+    "category": "record",
+    "sounds": [ "pyfm:D4" ]
+  },
+  "Ds4": {
+    "category": "record",
+    "sounds": [ "pyfm:Ds4" ]
+  },
+  "E4": {
+    "category": "record",
+    "sounds": [ "pyfm:E4" ]
+  },
+  "F4": {
+    "category": "record",
+    "sounds": [ "pyfm:F4" ]
+  },
+  "Fs4": {
+    "category": "record",
+    "sounds": [ "pyfm:Fs4" ]
+  },
+  "G4": {
+    "category": "record",
+    "sounds": [ "pyfm:G4" ]
+  },
+  "Gs4": {
+    "category": "record",
+    "sounds": [ "pyfm:Gs4" ]
+  },
+  "A4": {
+    "category": "record",
+    "sounds": [ "pyfm:A4" ]
+  },
+  "As4": {
+    "category": "record",
+    "sounds": [ "pyfm:As4" ]
+  },
+  "B4": {
+    "category": "record",
+    "sounds": [ "pyfm:B4" ]
+  },
+  "C5": {
+    "category": "record",
+    "sounds": [ "pyfm:C5" ]
+  },
+  "Cs5": {
+    "category": "record",
+    "sounds": [ "pyfm:Cs5" ]
+  },
+  "D5": {
+    "category": "record",
+    "sounds": [ "pyfm:D5" ]
+  },
+  "Ds5": {
+    "category": "record",
+    "sounds": [ "pyfm:Ds5" ]
+  },
+  "E5": {
+    "category": "record",
+    "sounds": [ "pyfm:E5" ]
+  },
+  "F5": {
+    "category": "record",
+    "sounds": [ "pyfm:F5" ]
+  },
+  "Fs5": {
+    "category": "record",
+    "sounds": [ "pyfm:Fs5" ]
+  },
+  "G5": {
+    "category": "record",
+    "sounds": [ "pyfm:G5" ]
+  },
+  "Gs5": {
+    "category": "record",
+    "sounds": [ "pyfm:Gs5" ]
+  },
+  "A5": {
+    "category": "record",
+    "sounds": [ "pyfm:A5" ]
+  },
+  "As5": {
+    "category": "record",
+    "sounds": [ "pyfm:As5" ]
+  },
+  "B5": {
+    "category": "record",
+    "sounds": [ "pyfm:B5" ]
+  }
+}
