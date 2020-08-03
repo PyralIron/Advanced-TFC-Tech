@@ -16,6 +16,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntityMultiblockPartATT extends TileEntityMultiblockPart<TileEntityMultiblockPartATT> {
+    public int field_174879_c = -1;
+    public int pos = -1;
     public TileEntityMultiblockPartATT (int[] size) {
         super(size);
     }
@@ -53,6 +55,7 @@ public class TileEntityMultiblockPartATT extends TileEntityMultiblockPart<TileEn
     @Override
     public void disassemble()
     {
+
         if(formed&&!world.isRemote)
         {
             BlockPos startPos = getOrigin();

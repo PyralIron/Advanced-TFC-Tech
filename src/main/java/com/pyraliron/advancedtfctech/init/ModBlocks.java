@@ -1,15 +1,7 @@
 package com.pyraliron.advancedtfctech.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-
 public class ModBlocks {
-	public static final List<Block> BLOCKS = new ArrayList<Block>();
+
 
 	/*public static final Block GRASS_BLOCK_PYRAL = new BlockGrassPyral();
 	public static final Block DIRT_BLOCK_PYRAL = new BlockDirtPyral();

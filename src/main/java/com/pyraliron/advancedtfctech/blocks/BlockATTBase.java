@@ -4,6 +4,7 @@ import blusunrize.immersiveengineering.api.Lib;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IIEMetaBlock;
 import com.google.common.collect.Sets;
 import com.pyraliron.advancedtfctech.AdvancedTFCTech;
+import com.pyraliron.advancedtfctech.te.TileEntityPowerLoom;
 import com.pyraliron.advancedtfctech.util.Reference;
 import flaxbeard.immersivepetroleum.ImmersivePetroleum;
 import flaxbeard.immersivepetroleum.common.blocks.BlockIPBase;
@@ -15,16 +16,15 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.NonNullList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
@@ -84,11 +84,15 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
                     unlistedPropList.add(p);
                 }
         }
+
         this.additionalProperties = propList.toArray(new IProperty[propList.size()]);
         this.additionalUnlistedProperties = unlistedPropList.toArray(new IUnlistedProperty[unlistedPropList.size()]);
         this.setDefaultState(getInitDefaultState());
         String registryName = createRegistryName();
         this.setUnlocalizedName(registryName.replace(':', '.'));
+        //this.setRegistryName(registryName.replace(':', '.'));
+        System.out.println(this.getRegistryName());
+
         this.setCreativeTab(ImmersivePetroleum.creativeTab);
         this.adjustSound();
         //ImmersivePetroleum.registerBlockByFullName(this, itemBlock, registryName);
@@ -102,6 +106,37 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
             e.printStackTrace();
         }
         lightOpacity = 255;
+
+    }
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        System.out.println("IS SHIFT KEY DOWN "+GuiScreen.isShiftKeyDown()+" "+!playerIn.getHeldItem(hand).isEmpty());
+        if (GuiScreen.isShiftKeyDown() && !playerIn.getHeldItem(hand).isEmpty()) {
+            TileEntity te = worldIn.getTileEntity(pos);
+            System.out.println("TILE ENTITY "+te);
+            if (te instanceof TileEntityPowerLoom) {
+                TileEntityPowerLoom tem = ((TileEntityPowerLoom) te).master();
+                ItemStack shiftCount = ItemStack.EMPTY;
+                int j = -1;
+                for (int i = 0; i < 8; i++) {
+
+                    if (tem.inputHandler.getStackInSlot(i).getCount() < 1) {
+                        shiftCount = playerIn.getHeldItem(hand);
+                        j = i;
+                    }
+
+
+                }
+                System.out.println("SHIFT COUNT "+shiftCount);
+                if (!shiftCount.isEmpty()) {
+                    playerIn.getHeldItem(hand).shrink(1);
+                    tem.inputHandler.insertItem(j,new ItemStack(playerIn.getHeldItem(hand).getItem()),false);
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 
     @Override

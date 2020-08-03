@@ -10,7 +10,7 @@
   "variants":
   {
     "normal": [{
-      "model": "pyfm:advanced_note_block_high_0",
+      "model": "immersiveengineering:metal_multiblock/arc_furnace.obj",
       "transform": {
         "scale": 1.875,
         "rotation": [
@@ -29,7 +29,7 @@
       }
     }],
     "inventory": [{
-      "model": "pyfm:advanced_note_block_high_0",
+      "model": "immersiveengineering:metal_multiblock/arc_furnace.obj",
       "transform": {
         "scale": 1.875,
         "rotation": [
@@ -77,27 +77,27 @@
 
       },
       "true":{
-        "model": "pyfm:advanced_note_block_high_0"
+        "model": "immersiveengineering:ie_empty"
       }
     },
     "_1dynamicrender":
     {
       "false":{
-        "model": "pyfm:advanced_note_block_high_0"
+
 
       },
       "true":{
-        "model": "pyfm:advanced_note_block_high_0"
+        "model": "immersiveengineering:metal_multiblock/arc_furnace_electrodes.obj.ie"
 
       }
     },
     "boolean0":
     {
       "false":{
-        "model": "pyfm:advanced_note_block_high_0"
+        "model": "immersiveengineering:metal_multiblock/arc_furnace.obj"
       },
       "true": {
-        "model": "pyfm:advanced_note_block_high_0"
+        "model": "immersiveengineering:metal_multiblock/arc_furnace_mirrored.obj"
       }
     }
   }

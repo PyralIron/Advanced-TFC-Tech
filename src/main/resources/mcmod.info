@@ -12,5 +12,31 @@
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
+},{
+  "modid": "att",
+  "name": "Advanced TFC Tech",
+  "description": "Adds a Power Loom multiblock for automating fabric production.",
+  "version": "1.12.2-0.1.0",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["FiringIron"],
+  "credits": "AnodeCathode for maintaining Technodefirmacraft 1.12.2",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+},{
+  "modid": "pyfm",
+  "name": "Pyralfish Mod",
+  "description": "Tests and stuff",
+  "version": "1.12.2-0.1.0",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["FiringIron"],
+  "credits": "Grandayy for making cool minecraft music",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
 }
 ]

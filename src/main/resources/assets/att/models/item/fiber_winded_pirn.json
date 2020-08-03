@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "att:items/winded_pirn"
+    "layer0": "att:items/jute_fiber_pirn"
   }
 }

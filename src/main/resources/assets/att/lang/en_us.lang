@@ -1,0 +1,6 @@
+item.pirn.name=Pirn
+item.fiber_winded_pirn.name=Fiber-Winded Pirn
+item.silk_winded_pirn.name=Silk-Winded Pirn
+item.wool_winded_pirn.name=Wool-Winded Pirn
+desc.immersiveengineering.info.multiblock.att:powerloom=Power Loom
+itemGroup.advancedTFCTech = Advanced TFC Tech

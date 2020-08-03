@@ -6,7 +6,6 @@ import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler;
 import blusunrize.immersiveengineering.api.energy.wires.TileEntityImmersiveConnectable;
 import blusunrize.immersiveengineering.api.shader.CapabilityShader;
 import blusunrize.immersiveengineering.client.models.IOBJModelCallback;
-import blusunrize.immersiveengineering.common.CommonProxy;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IDirectionalTile;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IHasObjProperty;
@@ -15,6 +14,9 @@ import blusunrize.immersiveengineering.common.blocks.TileEntityIEBase;
 import blusunrize.immersiveengineering.common.blocks.TileEntityMultiblockPart;
 import blusunrize.immersiveengineering.common.util.Utils;
 import blusunrize.immersiveengineering.common.util.inventory.IEInventoryHandler;
+import com.pyraliron.advancedtfctech.crafting.PowerLoomRecipe;
+import com.pyraliron.advancedtfctech.proxy.CommonProxy;
+import com.pyraliron.advancedtfctech.te.TileEntityPowerLoom;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -22,6 +24,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,25 +67,37 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
+
         TileEntity tile = world.getTileEntity(pos);
         if (tile != null && (!(tile instanceof IEBlockInterfaces.ITileDrop) || !((IEBlockInterfaces.ITileDrop) tile).preventInventoryDrop()) && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null))
         {
+            if (tile instanceof TileEntityPowerLoom) {
+                System.out.println(((TileEntityPowerLoom) tile).getStructureDimensions());
+                System.out.println("TILE ENTITY POS "+((TileEntityPowerLoom) tile));
+                System.out.println("TILE ENTITY POS "+((TileEntityPowerLoom) tile).getFakepos());
+
+            }
             IItemHandler h = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+
             if (h instanceof IEInventoryHandler)
+                System.out.println("handler "+h.getSlots());
                 for (int i = 0; i < h.getSlots(); i++)
                 {
                     if (h.getStackInSlot(i) != null)
                     {
                         spawnAsEntity(world, pos, h.getStackInSlot(i));
-                        ((IEInventoryHandler) h).setStackInSlot(i, null);
+                        System.out.println("INV HANDLER "+h+" "+i);
+                        ((IEInventoryHandler) h).setStackInSlot(i, ItemStack.EMPTY);
                     }
                 }
         }
         if (tile instanceof IEBlockInterfaces.IHasDummyBlocks)
         {
+            System.out.println("Has dummy blocks");
             ((IEBlockInterfaces.IHasDummyBlocks) tile).breakDummies(pos, state);
         }
         if (tile instanceof IImmersiveConnectable)
+            System.out.println("Connectable");
             if (!world.isRemote || !Minecraft.getMinecraft().isSingleplayer())
                 ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(tile), world, !world.isRemote && world.getGameRules().getBoolean("doTileDrops"));
         super.breakBlock(world, pos, state);
@@ -298,6 +313,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
     {
         ItemStack heldItem = player.getHeldItem(hand);
         TileEntity tile = world.getTileEntity(pos);
+        //System.out.println("onBlockActivated RUN");
         if (tile instanceof IEBlockInterfaces.IConfigurableSides && Utils.isHammer(heldItem) && !world.isRemote)
         {
             int iSide = player.isSneaking() ? side.getOpposite().ordinal() : side.ordinal();
@@ -306,6 +322,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
         }
         if (tile instanceof IDirectionalTile && Utils.isHammer(heldItem) && ((IDirectionalTile) tile).canHammerRotate(side, hitX, hitY, hitZ, player) && !world.isRemote)
         {
+
             EnumFacing f = ((IDirectionalTile) tile).getFacing();
             int limit = ((IDirectionalTile) tile).getFacingLimitation();
 
@@ -327,23 +344,142 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
             if (b)
                 return b;
         }
+        //System.out.println("TILE IS: "+tile);
         if (tile instanceof IPlayerInteraction)
         {
+            //System.out.println("TILE IS PLAYER INTERACTION");
             boolean b = ((IPlayerInteraction) tile).interact(side, player, hand, heldItem, hitX, hitY, hitZ);
             if (b)
                 return b;
         }
         if (tile instanceof IEBlockInterfaces.IGuiTile && hand == EnumHand.MAIN_HAND && !player.isSneaking())
         {
+            //System.out.println("TILE IS BLOCK INTERFACE");
+
             TileEntity master = ((IEBlockInterfaces.IGuiTile) tile).getGuiMaster();
+            //System.out.println("GUI MASTER"+master);
+            //System.out.println("WHY U NO CAN OPEN GUI"+((IEBlockInterfaces.IGuiTile) tile).canOpenGui(player));
             if (((IEBlockInterfaces.IGuiTile) tile).canOpenGui(player))
             {
+                //System.out.println("TRY OPEN GUI FIXED SHOULD BE");
                 if (!world.isRemote && master != null)
                     CommonProxy.openGuiForTile(player, (TileEntity & IEBlockInterfaces.IGuiTile) master);
                 return true;
             }
         }
+        //System.out.println("IS SHIFT KEY DOWN "+ GuiScreen.isShiftKeyDown()+" "+!player.getHeldItem(hand).isEmpty()+" "+hand+" "+player.getHeldItem(hand));
+
+        if (GuiScreen.isShiftKeyDown() && !player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND) {
+
+            TileEntity te = world.getTileEntity(pos);
+            //System.out.println("TILE ENTITY "+te);
+            if (te instanceof TileEntityPowerLoom) {
+                TileEntityPowerLoom tem = ((TileEntityPowerLoom) te).master();
+                ItemStack shiftCount = ItemStack.EMPTY;
+                int j = -1;
+                //System.out.println("TE POS "+((TileEntityPowerLoom) te).getFakepos());
+                if (((TileEntityPowerLoom) te).getFakepos() == 15+1) {
+                    for (int i = 0; i < 8; i++) {
+                        if (tem.inputHandler.getStackInSlot(i).getCount() < 1) {
+                            shiftCount = player.getHeldItem(hand);
+                            j = i;
+                        }
+                    }
+                }
+                else if (((TileEntityPowerLoom) te).getFakepos() == 3 || ((TileEntityPowerLoom) te).getFakepos() == 6 || ((TileEntityPowerLoom) te).getFakepos() == 9) {
+                    for (int i = 13; i < 16; i++) {
+                        if (tem.inputHandler.getStackInSlot(i).getCount() < 64) {
+                            shiftCount = player.getHeldItem(hand);
+                            j = i;
+                            break;
+                        }
+                    }
+                }
+                else if (((TileEntityPowerLoom) te).getFakepos() == 15+4 || ((TileEntityPowerLoom) te).getFakepos() == 15+7 || ((TileEntityPowerLoom) te).getFakepos() == 15+10) {
+                    for (int i = 16; i < 17; i++) {
+                        //System.out.println("wtf item count "+tem.inputHandler.getStackInSlot(i).getCount());
+                        if (tem.inputHandler.getStackInSlot(i).getCount() < 16) {
+                            shiftCount = player.getHeldItem(hand);
+                            j = i;
+                            break;
+                        }
+                    }
+                }
+                //System.out.println("SHIFT COUNT "+shiftCount +" "+j);
+                if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeInput(shiftCount)) {
+                    ItemStack result = tem.inputHandler.insertItem(j,new ItemStack(player.getHeldItem(hand).getItem()),false);
+                    player.getHeldItem(hand).shrink(1-result.getCount());
+                    return true;
+                } else if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeSecondary(new ItemStack(shiftCount.getItem(),64))) {
+                    //System.out.println("actually works");
+                    ItemStack result = tem.inputHandler.insertItem(j,player.getHeldItem(hand),false);
+                    //System.out.println("RESULT "+result.getCount());
+                    if (j == 16) {
+                        player.getHeldItem(hand).shrink((Math.min(16,player.getHeldItem(hand).getCount())-result.getCount()));
+                    }
+                    else {
+                        player.getHeldItem(hand).shrink(player.getHeldItem(hand).getCount()-result.getCount());
+                    }
+                    return true;
+
+
+
+
+                }
+
+            }
+            return false;
+        } else if (!GuiScreen.isShiftKeyDown() && player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND) {
+
+            TileEntity te = world.getTileEntity(pos);
+            //TODO: Fix this check for process queue change to check if secondary input matches pirn type
+            System.out.println("process Queue size "+((TileEntityPowerLoom) te).master().isTicking);
+            if (te instanceof TileEntityPowerLoom && !((TileEntityPowerLoom) te).master().isTicking) {
+                System.out.println("FUCK SIDED PROXY");
+                TileEntityPowerLoom tem = ((TileEntityPowerLoom) te).master();
+                ItemStack shiftCount = ItemStack.EMPTY;
+                int j = -1;
+                if (((TileEntityPowerLoom) te).getFakepos() == 15+1) {
+                    for (int i = 0; i < 8; i++) {
+                        if (tem.inputHandler.getStackInSlot(i).getCount() == 1) {
+                            player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),1));
+                            tem.inventory.get(i).shrink(1);
+                            break;
+                        }
+                    }
+                }
+                else if (((TileEntityPowerLoom) te).getFakepos() == 3 || ((TileEntityPowerLoom) te).getFakepos() == 6 || ((TileEntityPowerLoom) te).getFakepos() == 9) {
+                    for (int i = 13; i < 16; i++) {
+                        if (tem.inputHandler.getStackInSlot(i).getCount() > 0) {
+                            int count;
+                            if (player.getHeldItem(hand).isEmpty()) {
+                                player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount()));
+                                tem.inventory.get(i).shrink(tem.inventory.get(i).getCount());
+                            }
+                            if (!tem.inventory.get(i).getItem().equals(player.getHeldItem(hand).getItem()) || tem.inventory.get(i).getMetadata() != player.getHeldItem(hand).getMetadata()) { continue; }
+                            //TODO: Change this to care about stack size
+                            count = Math.min(64,tem.inventory.get(i).getCount()+player.getHeldItem(hand).getCount());
+                            player.getHeldItem(hand).grow(count-player.getHeldItem(hand).getCount());
+                            tem.inventory.get(i).shrink(count);
+                            j = i;
+                            break;
+                        }
+                    }
+                }
+                else if (((TileEntityPowerLoom) te).getFakepos() == 15+4 || ((TileEntityPowerLoom) te).getFakepos() == 15+7 || ((TileEntityPowerLoom) te).getFakepos() == 15+10) {
+                    for (int i = 16; i < 17; i++) {
+                        if (tem.inputHandler.getStackInSlot(i).getCount() > 0) {
+                            player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount()));
+                            tem.inventory.get(i).shrink( tem.inventory.get(i).getCount());
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
         return false;
+
     }
 
     @Override

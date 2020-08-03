@@ -8,9 +8,9 @@ import javax.annotation.Nonnull;
 
 import static com.pyraliron.advancedtfctech.init.ModItems.tabAdvancedTFCTech;
 
-public class ItemWindedPirn extends ItemBase {
-    public ItemWindedPirn() {
-        super("winded_pirn",tabAdvancedTFCTech);
+public class ItemFiberWindedPirn extends ItemBase {
+    public ItemFiberWindedPirn() {
+        super("fiber_winded_pirn",tabAdvancedTFCTech);
     }
 
     @Nonnull

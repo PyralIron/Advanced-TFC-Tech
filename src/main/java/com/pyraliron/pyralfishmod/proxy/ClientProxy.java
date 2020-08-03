@@ -8,8 +8,8 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerItemRenderer(Item item, int meta, String id) {
-		System.out.println(item.getUnlocalizedName());
-		System.out.println(meta);
+		//System.out.println(item.getUnlocalizedName());
+		//System.out.println(meta);
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
 	}
 }

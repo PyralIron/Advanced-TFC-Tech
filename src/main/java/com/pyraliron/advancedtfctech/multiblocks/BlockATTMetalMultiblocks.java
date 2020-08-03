@@ -30,6 +30,7 @@ public class BlockATTMetalMultiblocks extends BlockATTMultiblock<BlockTypes_ATTM
         setResistance(15.0F);
         this.setAllNotNormalBlock();
         lightOpacity = 0;
+
     }
 
     @Override
@@ -50,8 +51,10 @@ public class BlockATTMetalMultiblocks extends BlockATTMultiblock<BlockTypes_ATTM
     @Override
     public TileEntity createNewTileEntity(World world, int meta)
     {
+        //System.out.println("CREATE NEW TILE ENTITY "+BlockTypes_ATTMetalMultiblock.values()[meta]);
         switch (BlockTypes_ATTMetalMultiblock.values()[meta])
         {
+
             case POWERLOOM:
                 return new TileEntityPowerLoom();
             case POWERLOOM_PARENT:
