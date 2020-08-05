@@ -300,7 +300,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 //				{
                 //					return Integer.compare(usedInvSlots[arg0],usedInvSlots[arg1]);
                 //				}});
-
+                ItemStack secondary = this.getInventory().get(16);
                 for (int slot = 0; slot < 8; slot++)
                     if (!usedInvSlots.contains(slot))
                     {
@@ -310,9 +310,9 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                         //					stack = stack.copy();
                         ////					stack.stackSize-=usedInvSlots[slot];
                         //				}
-                        if (!stack.isEmpty() && stack.getCount() > 0)
+                        if (!stack.isEmpty() && !secondary.isEmpty() && stack.getCount() > 0 && secondary.getCount() >= 16)
                         {
-                            PowerLoomRecipe recipe = PowerLoomRecipe.findRecipe(stack);
+                            PowerLoomRecipe recipe = PowerLoomRecipe.findRecipe(stack,secondary);
 
                             if (recipe != null)
                             {
@@ -828,12 +828,12 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
         {
-            //System.out.println("ITEM STACK "+stack.getCount()+" "+stack);
-            //System.out.println("SLOT "+slot);
+            System.out.println("ITEM STACK "+stack.getCount()+" "+stack);
+            System.out.println("SLOT "+slot);
             if (stack.isEmpty())
                 return stack;
             if (slot == 16) {
-                stack = new ItemStack(stack.getItem(),min(stack.getCount(),16));
+                stack = new ItemStack(stack.getItem(),min(stack.getCount(),16),stack.getMetadata());
             }
             else {
                 stack = stack.copy();
@@ -888,11 +888,14 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                     ItemStack here = inventory.get(i);
                     for (int j = 0; j < 8; j++) {
                         if (!PowerLoomRecipe.inputMatchesSecondary(inventory.get(j),stack,true)) {
+                            //System.out.println("fail 0-8");
                             return stack;
                         }
                     }
                     for (int j = 13; j < 17; j++) {
-                        if (!inventory.get(j).isEmpty() && (!inventory.get(j).getItem().equals(stack.getItem())) || inventory.get(j).getMetadata() != stack.getMetadata()) {
+                        System.out.println("inv slot "+j+" "+inventory.get(j)+" "+inventory.get(j).isEmpty()+" "+inventory.get(j).getCount()+" meta: "+inventory.get(j).getMetadata()+" "+stack.getMetadata());
+                        if (!inventory.get(j).isEmpty() && (!inventory.get(j).getItem().equals(stack.getItem()) || inventory.get(j).getMetadata() != stack.getMetadata())) {
+                            System.out.println("fail 13-17 "+j);
                             return stack;
                         }
                     }
@@ -937,7 +940,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             if (stack.isEmpty())
                 return stack;
             if (slot == 16) {
-                stack = new ItemStack(stack.getItem(),min(stack.getCount(),16));
+                stack = new ItemStack(stack.getItem(),min(stack.getCount(),16),stack.getMetadata());
             }
             else {
                 stack = stack.copy();
@@ -952,7 +955,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                     }
                     ItemStack here = inventory.get(i);
                     for (int j = 13; j < 17; j++) {
-                        if (!inventory.get(j).isEmpty() && !inventory.get(j).getItem().equals(stack.getItem())) {
+                        if (!inventory.get(j).isEmpty() && (!inventory.get(j).getItem().equals(stack.getItem()) || inventory.get(j).getMetadata() != stack.getMetadata())) {
                             return stack;
                         }
                     }
@@ -969,12 +972,13 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 for (int i = 16; i < 17; i++) {
                     for (int j = 0; j < 8; j++) {
                         if (!PowerLoomRecipe.inputMatchesSecondary(inventory.get(j),stack,true)) {
+                            //System.out.println("fail");
                             return stack;
                         }
                     }
                     ItemStack here = inventory.get(i);
                     for (int j = 13; j < 17; j++) {
-                        if (!inventory.get(j).isEmpty() && !inventory.get(j).getItem().equals(stack.getItem())) {
+                        if (!inventory.get(j).isEmpty() && (!inventory.get(j).getItem().equals(stack.getItem()) || inventory.get(j).getMetadata() != stack.getMetadata())) {
                             return stack;
                         }
                     }
@@ -1070,19 +1074,20 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 return true;
             return false;
         }*/
-        /*if (process.recipe instanceof PowerLoomRecipe) {
-            //System.out.println("primer match "+((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(16)));
-            //System.out.println("count match 16 "+(this.inventory.get(16).getCount() >= 16));
+        if (process.recipe instanceof PowerLoomRecipe) {
+            System.out.println("primer match "+((PowerLoomRecipe) process.recipe).secondaryInput.matches(new ItemStack(this.inventory.get(16).getItem(),64,this.inventory.get(16).getMetadata())));
+            System.out.println("count match 16 "+(this.inventory.get(16).getCount() >= 16));
+            System.out.println("inv 13 14 15 "+this.inventory.get(13)+" "+this.inventory.get(14)+" "+this.inventory.get(15)+" "+((PowerLoomRecipe) process.recipe).secondaryInput.getExampleStack());
             System.out.println("rest match "+(((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(13)) ||
                     ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(14)) ||
                     ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(15))));
-        }*/
+        }
         if (process.recipe instanceof PowerLoomRecipe && ((PowerLoomRecipe) process.recipe).secondaryInput.matches(new ItemStack(this.inventory.get(16).getItem(),64,this.inventory.get(16).getMetadata())) &&
                 this.inventory.get(16).getCount() >= 16 &&
                 (((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(13)) ||
                 ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(14)) ||
                 ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(15)))) {
-            //System.out.println("SUCCESS ADDITIONAL CHECK");
+            System.out.println("SUCCESS ADDITIONAL CHECK");
             return true;
         }
         return false;

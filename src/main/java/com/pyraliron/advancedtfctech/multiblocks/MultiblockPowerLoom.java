@@ -83,7 +83,7 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
                             tile.field_174879_c = ((h + 1) * 15 + (l) * 3 + (w + 1));
                             tile.setPos((h + 1) * 15 + (l) * 3 + (w + 1));
                             tile.offset = new int[]{(side == EnumFacing.WEST ? -l : side == EnumFacing.EAST ? l : side == EnumFacing.NORTH ? ww : -ww), h, (side == EnumFacing.NORTH ? -l : side == EnumFacing.SOUTH ? l : side == EnumFacing.EAST ? ww : -ww)};
-                            System.out.println(tile.offset);
+                            //System.out.println(tile.offset);
                             tile.mirrored = mirror;
                             tile.markDirty();
                             world.addBlockEvent(pos2, IPContent.blockMetalMultiblock, 255, 0);

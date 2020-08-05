@@ -257,7 +257,7 @@ public class ModelPowerLoom extends ModelBase
             this.pirn_pile = new ModelRenderer(this, "pirn_pile");
             for (int i = 0; i < 4; i++) {
                 for (int j = i; j < 4; j++) {
-                    ModelRenderer empty_pirn = new ModelRenderer(this, 0, 10);
+                    ModelRenderer empty_pirn = new ModelRenderer(this, 0, 11);
                     empty_pirn.addBox(0, 0, 0, 2, 9, 2);
                     empty_pirn.rotateAngleZ = (float) Math.PI / 2;
                     empty_pirn.setRotationPoint(28, (16 + i * 2), 46-(4 - i * 1.5F + j * 3));
@@ -766,13 +766,13 @@ public class ModelPowerLoom extends ModelBase
                     if (tickAmplified < 50) {
                         this.threads_cloth_lower.childModels.get(i).isHidden = i != 0;
                     } else {
-                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, ((tickAmplified - 43) * 20) / 500);
+                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, ((tickAmplified - 37) * 20) / 500);
                     }
                     if (i < 20) {
                         if (tickAmplified < 50) {
                             this.warp_lower_stages.childModels.get(i).isHidden = i != 0;
                         } else {
-                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 43) * 20) / 500);
+                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 37) * 20) / 500);
                         }
                     }
                 }
@@ -781,13 +781,13 @@ public class ModelPowerLoom extends ModelBase
                     if (tickAmplified < 50) {
                         this.threads_cloth_lower.childModels.get(i).isHidden = i != 20;
                     } else {
-                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, 17+((tickAmplified - 43) * 20) / 500);
+                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, 17+((tickAmplified - 37) * 20) / 500);
                     }
                     if (i < 20) {
                         if (tickAmplified < 50) {
                             this.warp_lower_stages.childModels.get(i).isHidden = i != 0;
                         } else {
-                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 43) * 20) / 500);
+                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 37) * 20) / 500);
                         }
                     }
                 }
@@ -956,13 +956,13 @@ public class ModelPowerLoom extends ModelBase
                     if (tickAmplified < 50) {
                         this.threads_cloth_lower.childModels.get(i).isHidden = i != 0;
                     } else {
-                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, ((tickAmplified - 43) * 20) / 500);
+                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, ((tickAmplified - 37) * 20) / 500);
                     }
                     if (i < 20) {
                         if (tickAmplified < 50) {
                             this.warp_lower_stages.childModels.get(i).isHidden = i != 0;
                         } else {
-                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 43) * 20) / 500);
+                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 37) * 20) / 500);
                         }
                     }
                 }
@@ -971,13 +971,13 @@ public class ModelPowerLoom extends ModelBase
                     if (tickAmplified < 50) {
                         this.threads_cloth_lower.childModels.get(i).isHidden = i != 20;
                     } else {
-                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, 17+((tickAmplified - 43) * 20) / 500);
+                        this.threads_cloth_lower.childModels.get(i).isHidden = i != Math.min(39, 17+((tickAmplified - 37) * 20) / 500);
                     }
                     if (i < 20) {
                         if (tickAmplified < 50) {
                             this.warp_lower_stages.childModels.get(i).isHidden = i != 0;
                         } else {
-                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 43) * 20) / 500);
+                            this.warp_lower_stages.childModels.get(i).isHidden = i != Math.min(19, ((tickAmplified - 37) * 20) / 500);
                         }
                     }
                 }

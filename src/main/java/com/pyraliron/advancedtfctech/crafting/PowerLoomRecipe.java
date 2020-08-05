@@ -122,9 +122,9 @@ public class PowerLoomRecipe extends MultiblockRecipe {
         return recipe;
     }
 
-    public static PowerLoomRecipe findRecipe(ItemStack input) {
+    public static PowerLoomRecipe findRecipe(ItemStack input,ItemStack secondary) {
         for (PowerLoomRecipe recipe : recipeList)
-            if (recipe != null && recipe.matches(input))
+            if (recipe != null && recipe.matches(input) && recipe.secondaryInput.matchesItemStackIgnoringSize(secondary))
                 return recipe;
         return null;
     }

@@ -78,32 +78,32 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
         if (tile != null && (!(tile instanceof IEBlockInterfaces.ITileDrop) || !((IEBlockInterfaces.ITileDrop) tile).preventInventoryDrop()) && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null))
         {
             if (tile instanceof TileEntityPowerLoom) {
-                System.out.println(((TileEntityPowerLoom) tile).getStructureDimensions());
-                System.out.println("TILE ENTITY POS "+((TileEntityPowerLoom) tile));
-                System.out.println("TILE ENTITY POS "+((TileEntityPowerLoom) tile).getFakepos());
+                //System.out.println(((TileEntityPowerLoom) tile).getStructureDimensions());
+                //System.out.println("TILE ENTITY POS "+((TileEntityPowerLoom) tile));
+               // System.out.println("TILE ENTITY POS "+((TileEntityPowerLoom) tile).getFakepos());
 
             }
             IItemHandler h = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
             if (h instanceof IEInventoryHandler)
-                System.out.println("handler "+h.getSlots());
+               // System.out.println("handler "+h.getSlots());
                 for (int i = 0; i < h.getSlots(); i++)
                 {
                     if (h.getStackInSlot(i) != null)
                     {
                         spawnAsEntity(world, pos, h.getStackInSlot(i));
-                        System.out.println("INV HANDLER "+h+" "+i);
+                        //System.out.println("INV HANDLER "+h+" "+i);
                         ((IEInventoryHandler) h).setStackInSlot(i, ItemStack.EMPTY);
                     }
                 }
         }
         if (tile instanceof IEBlockInterfaces.IHasDummyBlocks)
         {
-            System.out.println("Has dummy blocks");
+            //System.out.println("Has dummy blocks");
             ((IEBlockInterfaces.IHasDummyBlocks) tile).breakDummies(pos, state);
         }
         if (tile instanceof IImmersiveConnectable)
-            System.out.println("Connectable");
+            //System.out.println("Connectable");
             if (!world.isRemote || !Minecraft.getMinecraft().isSingleplayer())
                 ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(tile), world, !world.isRemote && world.getGameRules().getBoolean("doTileDrops"));
         super.breakBlock(world, pos, state);
@@ -416,7 +416,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                     ItemStack result = tem.inputHandler.insertItem(j,new ItemStack(player.getHeldItem(hand).getItem()),false);
                     player.getHeldItem(hand).shrink(1-result.getCount());
                     return true;
-                } else if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeSecondary(new ItemStack(shiftCount.getItem(),64))) {
+                } else if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeSecondary(new ItemStack(shiftCount.getItem(),64,shiftCount.getMetadata()))) {
                     //System.out.println("actually works");
                     ItemStack result = tem.inputHandler.insertItem(j,player.getHeldItem(hand),false);
                     //System.out.println("RESULT "+result.getCount());
@@ -439,7 +439,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
 
             TileEntity te = world.getTileEntity(pos);
             if (te instanceof TileEntityPowerLoom && !((TileEntityPowerLoom) te).master().isTicking) {
-                System.out.println("te fake pos "+((TileEntityPowerLoom) te).getFakepos());
+                //System.out.println("te fake pos "+((TileEntityPowerLoom) te).getFakepos());
                 TileEntityPowerLoom tem = ((TileEntityPowerLoom) te).master();
                 ItemStack shiftCount = ItemStack.EMPTY;
                 if (((TileEntityPowerLoom) te).getFakepos() == 15+1) {
@@ -456,7 +456,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                         if (tem.inputHandler.getStackInSlot(i).getCount() > 0) {
                             int count;
                             if (player.getHeldItem(hand).isEmpty()) {
-                                player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount()));
+                                player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount(),tem.inventory.get(i).getMetadata()));
                                 tem.inventory.get(i).shrink(tem.inventory.get(i).getCount());
                             }
                             if (!tem.inventory.get(i).getItem().equals(player.getHeldItem(hand).getItem()) || tem.inventory.get(i).getMetadata() != player.getHeldItem(hand).getMetadata()) { continue; }
@@ -471,7 +471,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                 else if (((TileEntityPowerLoom) te).getFakepos() == 15+4 || ((TileEntityPowerLoom) te).getFakepos() == 15+7 || ((TileEntityPowerLoom) te).getFakepos() == 15+10) {
                     for (int i = 16; i < 17; i++) {
                         if (tem.inputHandler.getStackInSlot(i).getCount() > 0) {
-                            player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount()));
+                            player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount(),tem.inventory.get(i).getMetadata()));
                             tem.inventory.get(i).shrink( tem.inventory.get(i).getCount());
                             break;
                         }
