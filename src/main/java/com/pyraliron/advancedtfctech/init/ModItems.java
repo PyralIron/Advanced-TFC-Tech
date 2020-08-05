@@ -8,12 +8,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import static com.pyraliron.pyralfishmod.init.ModBlocks.ADVANCED_NOTE_BLOCK_MID;
-
 public class ModItems {
     public static final CreativeTabs tabAdvancedTFCTech = (new CreativeTabs("advancedTFCTech") {
         @Override public ItemStack getTabIconItem() {
-            return new ItemStack(ADVANCED_NOTE_BLOCK_MID);
+            return new ItemStack(PIRN);
         }
     });
     public static final Item PIRN = new ItemPirn();

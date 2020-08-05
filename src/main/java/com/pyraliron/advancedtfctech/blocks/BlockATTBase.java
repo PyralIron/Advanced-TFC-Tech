@@ -1,3 +1,9 @@
+/*
+ * Large potions of this code were taken from Immersive Petroleum created by Flaxbeard
+ * https://github.com/Flaxbeard/ImmersivePetroleum/
+ * as well as from Immersive Engineering created by BluSunrize
+ * https://github.com/BluSunrize/ImmersiveEngineering/
+ */
 package com.pyraliron.advancedtfctech.blocks;
 
 import blusunrize.immersiveengineering.api.Lib;
@@ -91,12 +97,12 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
         String registryName = createRegistryName();
         this.setUnlocalizedName(registryName.replace(':', '.'));
         //this.setRegistryName(registryName.replace(':', '.'));
-        System.out.println(this.getRegistryName());
+        //System.out.println(this.getRegistryName());
 
         this.setCreativeTab(ImmersivePetroleum.creativeTab);
         this.adjustSound();
         //ImmersivePetroleum.registerBlockByFullName(this, itemBlock, registryName);
-        System.out.println(" what "+registryName+" "+this.getUnlocalizedName()+" "+this.name+" "+this);
+        //System.out.println(" what "+registryName+" "+this.getUnlocalizedName()+" "+this.name+" "+this);
         AdvancedTFCTech.registeredATTBlocks.add(this);
         try
         {

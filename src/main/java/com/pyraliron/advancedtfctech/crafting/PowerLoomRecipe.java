@@ -162,7 +162,7 @@ public class PowerLoomRecipe extends MultiblockRecipe {
     }
     public static boolean inputMatchesSecondary(ItemStack input, ItemStack secondary, boolean allowEmpty) {
         if (input.isEmpty() || secondary.isEmpty()) {return allowEmpty;}
-        System.out.println("name input "+input.getItem().getUnlocalizedName()+" "+secondary.getItem().getUnlocalizedName()+" "+input.getMetadata()+" "+secondary.getMetadata());
+        //System.out.println("name input "+input.getItem().getUnlocalizedName()+" "+secondary.getItem().getUnlocalizedName()+" "+input.getMetadata()+" "+secondary.getMetadata());
         if (input.getItem().equals(ModItems.FIBER_WINDED_PIRN) && (secondary.getItem().equals(IEContent.itemMaterial) && secondary.getMetadata() == 4 || secondary.getItem().equals(ItemsTFC.JUTE_FIBER))) {return true;}
         if (input.getItem().equals(ModItems.WOOL_WINDED_PIRN)&& (secondary.getItem().equals(ItemsTFC.WOOL_YARN))) {return true;}
         if (input.getItem().equals(ModItems.SILK_WINDED_PIRN)&& (secondary.getItem().equals(Items.STRING))) {return true;}

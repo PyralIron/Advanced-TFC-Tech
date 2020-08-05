@@ -1,3 +1,9 @@
+/*
+ * Large potions of this code were taken from Immersive Petroleum created by Flaxbeard
+ * https://github.com/Flaxbeard/ImmersivePetroleum/
+ * as well as from Immersive Engineering created by BluSunrize
+ * https://github.com/BluSunrize/ImmersiveEngineering/
+ */
 package com.pyraliron.advancedtfctech.blocks;
 
 import blusunrize.immersiveengineering.api.IEProperties;
@@ -432,13 +438,10 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
         } else if (!GuiScreen.isShiftKeyDown() && player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND) {
 
             TileEntity te = world.getTileEntity(pos);
-            //TODO: Fix this check for process queue change to check if secondary input matches pirn type
-            System.out.println("process Queue size "+((TileEntityPowerLoom) te).master().isTicking);
             if (te instanceof TileEntityPowerLoom && !((TileEntityPowerLoom) te).master().isTicking) {
-                System.out.println("FUCK SIDED PROXY");
+                System.out.println("te fake pos "+((TileEntityPowerLoom) te).getFakepos());
                 TileEntityPowerLoom tem = ((TileEntityPowerLoom) te).master();
                 ItemStack shiftCount = ItemStack.EMPTY;
-                int j = -1;
                 if (((TileEntityPowerLoom) te).getFakepos() == 15+1) {
                     for (int i = 0; i < 8; i++) {
                         if (tem.inputHandler.getStackInSlot(i).getCount() == 1) {
@@ -461,7 +464,6 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                             count = Math.min(64,tem.inventory.get(i).getCount()+player.getHeldItem(hand).getCount());
                             player.getHeldItem(hand).grow(count-player.getHeldItem(hand).getCount());
                             tem.inventory.get(i).shrink(count);
-                            j = i;
                             break;
                         }
                     }
@@ -471,6 +473,38 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                         if (tem.inputHandler.getStackInSlot(i).getCount() > 0) {
                             player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount()));
                             tem.inventory.get(i).shrink( tem.inventory.get(i).getCount());
+                            break;
+                        }
+                    }
+                } else if (((TileEntityPowerLoom) te).getFakepos() == 5 || ((TileEntityPowerLoom) te).getFakepos() == 8 || ((TileEntityPowerLoom) te).getFakepos() == 11) {
+                    for (int i = 8; i < 11; i++) {
+                        if (tem.inventory.get(i).getCount() > 0) {
+                            int count;
+                            if (player.getHeldItem(hand).isEmpty()) {
+                                player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount()));
+                                tem.inventory.get(i).shrink(tem.inventory.get(i).getCount());
+                            }
+                            if (!tem.inventory.get(i).getItem().equals(player.getHeldItem(hand).getItem()) || tem.inventory.get(i).getMetadata() != player.getHeldItem(hand).getMetadata()) { continue; }
+
+                            count = Math.min(64,tem.inventory.get(i).getCount()+player.getHeldItem(hand).getCount());
+                            player.getHeldItem(hand).grow(count-player.getHeldItem(hand).getCount());
+                            tem.inventory.get(i).shrink(count);
+                            break;
+                        }
+                    }
+                } else if (((TileEntityPowerLoom) te).getFakepos() == 0) {
+                    for (int i = 11; i < 13; i++) {
+                        if (tem.inventory.get(i).getCount() > 0) {
+                            int count;
+                            if (player.getHeldItem(hand).isEmpty()) {
+                                player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount()));
+                                tem.inventory.get(i).shrink(tem.inventory.get(i).getCount());
+                            }
+                            if (!tem.inventory.get(i).getItem().equals(player.getHeldItem(hand).getItem()) || tem.inventory.get(i).getMetadata() != player.getHeldItem(hand).getMetadata()) { continue; }
+
+                            count = Math.min(64,tem.inventory.get(i).getCount()+player.getHeldItem(hand).getCount());
+                            player.getHeldItem(hand).grow(count-player.getHeldItem(hand).getCount());
+                            tem.inventory.get(i).shrink(count);
                             break;
                         }
                     }

@@ -1,3 +1,9 @@
+/*
+ * Large potions of this code were taken from Immersive Petroleum created by Flaxbeard
+ * https://github.com/Flaxbeard/ImmersivePetroleum/
+ * as well as from Immersive Engineering created by BluSunrize
+ * https://github.com/BluSunrize/ImmersiveEngineering/
+ */
 package com.pyraliron.advancedtfctech.multiblocks;
 
 import com.pyraliron.advancedtfctech.blocks.BlockATTBase;

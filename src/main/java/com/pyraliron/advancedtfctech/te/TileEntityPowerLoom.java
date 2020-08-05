@@ -1,3 +1,9 @@
+/*
+ * Large potions of this code were taken from Immersive Petroleum created by Flaxbeard
+ * https://github.com/Flaxbeard/ImmersivePetroleum/
+ * as well as from Immersive Engineering created by BluSunrize
+ * https://github.com/BluSunrize/ImmersiveEngineering/
+ */
 package com.pyraliron.advancedtfctech.te;
 
 import blusunrize.immersiveengineering.api.ApiUtils;
@@ -163,7 +169,6 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         this.activeTicks = nbt.getInteger("activeTicks");
         this.tick = nbt.getInteger("tick");
         this.isTicking = nbt.getBoolean("isTicking2");
-        System.out.println("is ticking "+(this.processQueue.size() > 0));
         this.maxTicks = nbt.getInteger("maxTicks");
         this.processType = nbt.getInteger("processType");
         boolean lastActive = this.wasActive;
@@ -183,7 +188,6 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         nbt.setInteger("activeTicks",activeTicks);
         nbt.setInteger("tick",this.processQueue.size() > 0 ? this.processQueue.get(0).processTick : 0);
         nbt.setInteger("maxTicks",this.processQueue.size() > 0 ? this.processQueue.get(0).maxTicks : 100);
-        System.out.println("is ticking "+(this.processQueue.size() > 0));
         nbt.setBoolean("isTicking2",this.processQueue.size() > 0);
         this.isTicking = this.processQueue.size() > 0;
         nbt.setInteger("processType",this.processQueue.size() > 0 ? this.processQueue.get(0).recipe instanceof PowerLoomRecipe ? ((PowerLoomRecipe) this.processQueue.get(0).recipe).processType.ordinal(): 0: 0);
@@ -390,69 +394,93 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         //System.out.println("xyz of tile: "+x+" "+y+" "+z+" "+this.fakepos);
         if (this.field_174879_c < 2 || this.field_174879_c == 10 || this.field_174879_c == 13 || this.field_174879_c == 28 || this.field_174879_c == 4 || this.field_174879_c == 7) {
             return Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, 1, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
-        }
-        if (this.field_174879_c == 0)
-        {
-            List list = Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, .25f, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
-
-            float minX = (fl == EnumFacing.NORTH || fl == EnumFacing.SOUTH) ? 2F / 16F : ((fl == EnumFacing.WEST) ? 10F / 16F : 2F / 16F);
-            float maxX = (fl == EnumFacing.NORTH || fl == EnumFacing.SOUTH) ? 4F / 16F : ((fl == EnumFacing.WEST) ? 14F / 16F : 6F / 16F);
-            float minZ = (fl == EnumFacing.EAST || fl == EnumFacing.WEST) ? 2F / 16F : ((fl == EnumFacing.NORTH) ? 10F / 16F : 2F / 16F);
-            float maxZ = (fl == EnumFacing.EAST || fl == EnumFacing.WEST) ? 4F / 16F : ((fl == EnumFacing.NORTH) ? 14F / 16F : 6F / 16F);
-            list.add(new AxisAlignedBB(minX, 0.5, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
-
-            minX = (fl == EnumFacing.NORTH || fl == EnumFacing.SOUTH) ? 12F / 16F : minX;
-            maxX = (fl == EnumFacing.NORTH || fl == EnumFacing.SOUTH) ? 14F / 16F : maxX;
-            minZ = (fl == EnumFacing.EAST || fl == EnumFacing.WEST) ? 12F / 16F : minZ;
-            maxZ = (fl == EnumFacing.EAST || fl == EnumFacing.WEST) ? 14F / 16F : maxZ;
-            list.add(new AxisAlignedBB(minX, 0.5, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
-            return list;
-        }
-        if (this.field_174879_c == 5)
+        } else if (this.field_174879_c == 5)
         {
 
             List list = Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, .25f, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
-            float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 1-5*s : s;
-            float maxX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1-s : 5*s;
-            float minZ = fl == EnumFacing.NORTH ? 1-5*s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 0 : 8*s;
-            float maxZ = fl == EnumFacing.NORTH ? 1-s : fl == EnumFacing.SOUTH ? 5*s : fl == EnumFacing.WEST ? 8*s : 1;
-            list.add(new AxisAlignedBB(minX, 4*s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            if (this.mirrored) {
+                float minX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 1 - 5 * s : s;
+                float maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 1 - s : 5 * s;
+                float minZ = fl == EnumFacing.NORTH ? 1 - 5 * s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 8*s : 0;
+                float maxZ = fl == EnumFacing.NORTH ? 1 - s : fl == EnumFacing.SOUTH ? 5 * s : fl == EnumFacing.WEST ? 1 : 8*s;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
 
-            minX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 1-6*s : 0;
-            maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 1 : 6*s;
-            minZ = fl == EnumFacing.NORTH ? 1-6*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 8*s : 0;
-            maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 6*s : fl == EnumFacing.WEST ? 1 : 8*s;
-            list.add(new AxisAlignedBB(minX, 4*s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+                minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 1 - 6 * s : 0;
+                maxX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 6 * s;
+                minZ = fl == EnumFacing.NORTH ? 1 - 6 * s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0 : 8*s;
+                maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 6 * s : fl == EnumFacing.WEST ? 8*s : 1;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            } else {
+                float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 8 * s : fl == EnumFacing.WEST ? 1 - 5 * s : s;
+                float maxX = fl == EnumFacing.NORTH ? 8 * s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 - s : 5 * s;
+                float minZ = fl == EnumFacing.NORTH ? 1 - 5 * s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 0 : 8 * s;
+                float maxZ = fl == EnumFacing.NORTH ? 1 - s : fl == EnumFacing.SOUTH ? 5 * s : fl == EnumFacing.WEST ? 8 * s : 1;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+
+                minX = fl == EnumFacing.NORTH ? 8 * s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 1 - 6 * s : 0;
+                maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8 * s : fl == EnumFacing.WEST ? 1 : 6 * s;
+                minZ = fl == EnumFacing.NORTH ? 1 - 6 * s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 8 * s : 0;
+                maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 6 * s : fl == EnumFacing.WEST ? 1 : 8 * s;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            }
             return list;
         } else if (this.field_174879_c == 5+15)
         {
-
+            //fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList();
-            float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 6*s : fl == EnumFacing.WEST ? 1-5*s : s;
-            float maxX = fl == EnumFacing.NORTH ? 10*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1-s : 5*s;
-            float minZ = fl == EnumFacing.NORTH ? 1-5*s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 0 : 6*s;
-            float maxZ = fl == EnumFacing.NORTH ? 1-s : fl == EnumFacing.SOUTH ? 5*s : fl == EnumFacing.WEST ? 10*s : 1;
-            list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 12*s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            if (!mirrored) {
+                float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 6 * s : fl == EnumFacing.WEST ? 1 - 5 * s : s;
+                float maxX = fl == EnumFacing.NORTH ? 10 * s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 - s : 5 * s;
+                float minZ = fl == EnumFacing.NORTH ? 1 - 5 * s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 0 : 6 * s;
+                float maxZ = fl == EnumFacing.NORTH ? 1 - s : fl == EnumFacing.SOUTH ? 5 * s : fl == EnumFacing.WEST ? 10 * s : 1;
+                list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 12 * s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
 
-            minX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 1-6*s : 0;
-            maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 1 : 6*s;
-            minZ = fl == EnumFacing.NORTH ? 1-6*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 8*s : 0;
-            maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 6*s : fl == EnumFacing.WEST ? 1 : 8*s;
-            list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 4*s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+                minX = fl == EnumFacing.NORTH ? 8 * s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 1 - 6 * s : 0;
+                maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8 * s : fl == EnumFacing.WEST ? 1 : 6 * s;
+                minZ = fl == EnumFacing.NORTH ? 1 - 6 * s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 8 * s : 0;
+                maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 6 * s : fl == EnumFacing.WEST ? 1 : 8 * s;
+                list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 4 * s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            } else {
+                float minX = fl == EnumFacing.NORTH ? 6*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 1 - 5 * s : s;
+                float maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 10*s : fl == EnumFacing.WEST ? 1 - s : 5 * s;
+                float minZ = fl == EnumFacing.NORTH ? 1 - 5 * s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 6*s  : 0;
+                float maxZ = fl == EnumFacing.NORTH ? 1 - s : fl == EnumFacing.SOUTH ? 5 * s : fl == EnumFacing.WEST ? 1 : 10*s;
+                list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 12 * s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+
+                minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 1 - 6 * s : 0;
+                maxX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 6 * s;
+                minZ = fl == EnumFacing.NORTH ? 1 - 6 * s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0 : 8*s;
+                maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 6 * s : fl == EnumFacing.WEST ? 8*s : 1;
+                list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 4 * s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            }
             return list;
         } else if (this.field_174879_c == 11) {
             List list = Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, .25f, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
-            float minX = fl == EnumFacing.NORTH ? 0.025F : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? s : 1-5*s;
-            float maxX = fl == EnumFacing.NORTH ? 0F : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 5*s : 1-s;
-            float minZ = fl == EnumFacing.NORTH ? s : fl == EnumFacing.SOUTH ? 1-5*s : fl == EnumFacing.WEST ? 0 : 8*s;
-            float maxZ = fl == EnumFacing.NORTH ? 5*s : fl == EnumFacing.SOUTH ? 1-s : fl == EnumFacing.WEST ? 8*s : 1;
-            list.add(new AxisAlignedBB(minX, 4*s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            if (mirrored) {
+                float minX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? s : 1 - 5 * s;
+                float maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 5 * s : 1 - s;
+                float minZ = fl == EnumFacing.NORTH ? s : fl == EnumFacing.SOUTH ? 1 - 5 * s : fl == EnumFacing.WEST ? 8*s : 0;
+                float maxZ = fl == EnumFacing.NORTH ? 5 * s : fl == EnumFacing.SOUTH ? 1 - s : fl == EnumFacing.WEST ? 1 : 8*s;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
 
-            minX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0 : 1-6*s;
-            maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 6*s : 1;
-            minZ = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 1-6*s : fl == EnumFacing.WEST ? 8*s : 0;
-            maxZ = fl == EnumFacing.NORTH ? 6*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 8*s;
-            list.add(new AxisAlignedBB(minX, 4*s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+                minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? 0 : 1 - 6 * s;
+                maxX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 6 * s : 1;
+                minZ = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 1 - 6 * s : fl == EnumFacing.WEST ? 0 : 8*s;
+                maxZ = fl == EnumFacing.NORTH ? 6 * s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 8*s : 1;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            } else {
+                float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 8*s : fl == EnumFacing.WEST ? s : 1 - 5 * s;
+                float maxX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 5 * s : 1 - s;
+                float minZ = fl == EnumFacing.NORTH ? s : fl == EnumFacing.SOUTH ? 1 - 5 * s : fl == EnumFacing.WEST ? 0 : 8 * s;
+                float maxZ = fl == EnumFacing.NORTH ? 5 * s : fl == EnumFacing.SOUTH ? 1 - s : fl == EnumFacing.WEST ? 8 * s : 1;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+
+                minX = fl == EnumFacing.NORTH ? 8 * s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0 : 1 - 6 * s;
+                maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8 * s : fl == EnumFacing.WEST ? 6 * s : 1;
+                minZ = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 1 - 6 * s : fl == EnumFacing.WEST ? 8 * s : 0;
+                maxZ = fl == EnumFacing.NORTH ? 6 * s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 8 * s;
+                list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            }
             return list;
         } else if (this.field_174879_c == 11+15) {
             List list = Lists.newArrayList();
@@ -470,13 +498,23 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             return list;
         }else if (this.field_174879_c == 16) {
             List list = Lists.newArrayList();
-            float minX = fl == EnumFacing.NORTH ? 3*s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 0F : 7*s;
-            float maxX = fl == EnumFacing.NORTH ? 1-s : fl == EnumFacing.SOUTH ? 13*s : fl == EnumFacing.WEST ? 9*s : 1;
-            float minZ = fl == EnumFacing.NORTH ? 0F : fl == EnumFacing.SOUTH ? 7*s : fl == EnumFacing.WEST ? 3*s : s;
-            float maxZ = fl == EnumFacing.NORTH ? 9*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1-s : 13*s;
-            list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            if (mirrored) {
+                float minX = fl == EnumFacing.NORTH ? s : fl == EnumFacing.SOUTH ? 3*s : fl == EnumFacing.WEST ? 0F : 7 * s;
+                float maxX = fl == EnumFacing.NORTH ? 13*s : fl == EnumFacing.SOUTH ? 1-s : fl == EnumFacing.WEST ? 9 * s : 1;
+                float minZ = fl == EnumFacing.NORTH ? 0F : fl == EnumFacing.SOUTH ? 7 * s : fl == EnumFacing.WEST ? s : 3*s;
+                float maxZ = fl == EnumFacing.NORTH ? 9 * s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 13*s : 1-s;
+                list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            }
+            else {
+                float minX = fl == EnumFacing.NORTH ? 3 * s : fl == EnumFacing.SOUTH ? s : fl == EnumFacing.WEST ? 0F : 7 * s;
+                float maxX = fl == EnumFacing.NORTH ? 1 - s : fl == EnumFacing.SOUTH ? 13 * s : fl == EnumFacing.WEST ? 9 * s : 1;
+                float minZ = fl == EnumFacing.NORTH ? 0F : fl == EnumFacing.SOUTH ? 7 * s : fl == EnumFacing.WEST ? 3 * s : s;
+                float maxZ = fl == EnumFacing.NORTH ? 9 * s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 - s : 13 * s;
+                list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
+            }
             return list;
         } else if (this.field_174879_c == 19+15 || this.field_174879_c == 22+15 || this.field_174879_c == 25+15) {
+            fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList();
             float minX = fl == EnumFacing.NORTH ? 7.5F*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0F : 0F;
             float maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8.5F*s : fl == EnumFacing.WEST ? 1 : 1;
@@ -485,6 +523,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1-s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             return list;
         } else if (this.field_174879_c == 19 || this.field_174879_c == 22 || this.field_174879_c == 25) {
+            fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, .25f, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             float minX = fl == EnumFacing.NORTH ? 7.5F*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0F : 0F;
             float maxX = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 8.5F*s : fl == EnumFacing.WEST ? 1 : 1;
@@ -493,6 +532,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1-s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             return list;
         } else if (this.field_174879_c == 19+14 || this.field_174879_c == 22+14 || this.field_174879_c == 25+14) {
+            fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList();
             float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 10.5F*s : fl == EnumFacing.WEST ? 0F : 0F;
             float maxX = fl == EnumFacing.NORTH ? 5.5F*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 1;
@@ -788,8 +828,8 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
         {
-            System.out.println("ITEM STACK "+stack.getCount()+" "+stack);
-            System.out.println("SLOT "+slot);
+            //System.out.println("ITEM STACK "+stack.getCount()+" "+stack);
+            //System.out.println("SLOT "+slot);
             if (stack.isEmpty())
                 return stack;
             if (slot == 16) {
@@ -991,7 +1031,9 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
     @Override
     public boolean canOpenGui()
     {
-        return this.formed && this.field_174879_c == 6;
+        /* you can uncomment this to be able to see inside the loom for debugging purposes, maybe. but the gui is ugly. */
+        //return this.formed && this.field_174879_c == 6;
+        return false;
     }
 
     @Override
