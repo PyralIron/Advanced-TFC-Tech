@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxx",
+    "xyx",
+    "xxx"
+  ],
+  "key":
+  {
+    "y":
+    {
+      "item":"att:pirn"
+    },
+    "x":
+    [
+      {
+        "item": "immersiveengineering:material",
+        "data":4
+      },
+      {
+        "item": "tfc:crop/product/jute_fiber"
+      }
+    ]
+  },
+  "result":
+  {
+    "item": "att:fiber_winded_pirn",
+    "count": 1
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxx",
+    "xyx",
+    "xxx"
+  ],
+  "key":
+  {
+    "y":
+    {
+      "item":"att:pirn"
+    },
+    "x":
+    {
+      "item": "tfc:animal/product/wool_yarn"
+    }
+  },
+  "result":
+  {
+    "item": "att:wool_winded_pirn",
+    "count": 1
+  }
+}

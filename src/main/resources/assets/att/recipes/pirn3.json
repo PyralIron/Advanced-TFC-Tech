@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "  x",
+    "  y",
+    "  x"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item":"immersiveengineering:treated_wood",
+      "data":0
+    },
+    "y":
+    {
+      "item": "immersiveengineering:material",
+      "data":0
+    }
+  },
+  "result":
+  {
+    "item": "att:pirn",
+    "count": 1
+  }
+}

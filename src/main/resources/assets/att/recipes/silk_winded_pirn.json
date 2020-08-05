@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxx",
+    "xyx",
+    "xxx"
+  ],
+  "key":
+  {
+    "y":
+    {
+      "item":"att:pirn"
+    },
+    "x":
+    {
+      "item": "minecraft:string"
+    }
+  },
+  "result":
+  {
+    "item": "att:silk_winded_pirn",
+    "count": 1
+  }
+}
