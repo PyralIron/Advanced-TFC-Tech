@@ -44,7 +44,6 @@ public class TileRenderPowerLoom extends TileEntitySpecialRenderer<TileEntityPow
             if (te.mirrored)
             {
             }
-
             ClientUtils.bindTexture(texture);
 
             float ticks = te.activeTicks + (te.wasActive ? partialTicks : 0);

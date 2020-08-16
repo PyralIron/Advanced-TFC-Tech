@@ -3,4 +3,21 @@ item.fiber_winded_pirn.name=Fiber-Winded Pirn
 item.silk_winded_pirn.name=Silk-Winded Pirn
 item.wool_winded_pirn.name=Wool-Winded Pirn
 desc.immersiveengineering.info.multiblock.att:powerloom=Power Loom
-itemGroup.advancedTFCTech = Advanced TFC Tech
+itemGroup.advancedTFCTech=Advanced TFC Tech
+
+ie.manual.category.att.name=TerraFirmaCraft Tech
+
+ie.manual.entry.powerLoom.name=Power Loom
+ie.manual.entry.powerLoom.subtext=Textile Empire
+ie.manual.entry.powerLoom0=The Power Loom is an innovative solution to a growing demand for textiles. To automate the weaving process, a shuttle containing a pirn spooled with yarn is rapidly sent back and forth between two perpendicular sets of strung yarn alternating between high and low positions.
+ie.manual.entry.powerLoom1=In order to operate the Power Loom, pirns spooled with a select yarn must be put on the holder located at the front of the machine. Before the loom can operate, it must be primed with the select weave by shift-rightclicking with the weave on the 'grill' in the center of the machine. Then, input weave can be put with the same method on the lower beam on the machine's shorter side. Output may be retrieved by a storage device placed in the center of the output side, or by rightclicking on the back.
+ie.manual.entry.powerLoom2=Below are the operations the Power Loom can perform:
+ie.manual.entry.pirn0=Pirns are used to hold the yarn that gets weaved between the two other split sections.
+ie.manual.entry.pirn1=
+ie.manual.entry.pirn2=
+ie.manual.entry.pirn3=
+
+advancement.att:root=Winder
+advancement.att:root.desc=Craft a Pirn
+advancement.att:craftWovenPirn=Stop Winding
+advancement.att:craftWovenPirn.desc=Craft all Winded Pirns

@@ -152,7 +152,7 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
 
     @Override
     public IngredientStack[] getTotalMaterials() {
-        return new IngredientStack[0];
+        return materials;
     }
 
     @Override
@@ -182,10 +182,11 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
     {
         if (te == null)
         {
-            //te = new TileEntityPumpjack.TileEntityPumpjackParent();
+            te = new TileEntityPowerLoom.TileEntityPowerLoomParent();
         }
 
         //ImmersivePetroleum.proxy.renderTile((TileEntity) te);
+        AdvancedTFCTech.proxy.renderTile((TileEntity) te);
     }
     public static void fixStructure() {
         if (MultiblockPowerLoom.needFix) {MultiblockPowerLoom.needFix = false;}

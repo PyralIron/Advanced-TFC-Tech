@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "att:pirn"
+    },
+    "title": {
+      "translate": "advancement.att:root"
+    },
+    "description": {
+      "translate": "advancement.att:root.desc"
+    },
+    "background": "immersiveengineering:textures/blocks/treated_wood.png"
+  },
+  "criteria": {
+    "craft_pirn": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "att:pirn"
+          }
+        ]
+      }
+    }
+  }
+}

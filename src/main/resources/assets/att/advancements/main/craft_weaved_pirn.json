@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "att:silk_winded_pirn"
+    },
+    "title": {
+      "translate": "advancement.att:craftWovenPirn"
+    },
+    "description": {
+      "translate": "advancement.att:craftWovenPirn.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "att:main/root",
+  "criteria": {
+    "craft_hammer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "att:fiber_winded_pirn"
+          },
+          {
+            "item": "att:silk_winded_pirn"
+          },
+          {
+            "item": "att:wool_winded_pirn"
+          }
+        ]
+      }
+    }
+  }
+}
