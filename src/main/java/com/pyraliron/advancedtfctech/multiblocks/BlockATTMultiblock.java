@@ -55,11 +55,11 @@ public abstract class BlockATTMultiblock<E extends Enum<E> & BlockIPBase.IBlockE
             if (tileEntity instanceof IInventory)
                 InventoryHelper.dropInventoryItems(world, pos, (IInventory) tile);
         }
-        System.out.println("TRY TO DISASSEMBLE");
+        //System.out.println("TRY TO DISASSEMBLE");
         if (tileEntity instanceof TileEntityMultiblockPart)
-            System.out.println("DISASSEMBLE");
+            //System.out.println("DISASSEMBLE");
             ((TileEntityMultiblockPart) tileEntity).disassemble();
-            System.out.println(((TileEntityMultiblockPart) tileEntity).getOrigin());
+            //System.out.println(((TileEntityMultiblockPart) tileEntity).getOrigin());
         super.breakBlock(world, pos, state);
     }
 

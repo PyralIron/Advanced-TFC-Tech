@@ -714,7 +714,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
     @Override
     public void doProcessOutput(ItemStack output)
     {
-        System.out.println("POWER LOOM PROCESS OUTPUT "+this.tickedProcesses);
+        //System.out.println("POWER LOOM PROCESS OUTPUT "+this.tickedProcesses);
     }
 
     @Override
@@ -828,8 +828,8 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
         {
-            System.out.println("ITEM STACK "+stack.getCount()+" "+stack);
-            System.out.println("SLOT "+slot);
+            //System.out.println("ITEM STACK "+stack.getCount()+" "+stack);
+            //System.out.println("SLOT "+slot);
             if (stack.isEmpty())
                 return stack;
             if (slot == 16) {
@@ -893,9 +893,9 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                         }
                     }
                     for (int j = 13; j < 17; j++) {
-                        System.out.println("inv slot "+j+" "+inventory.get(j)+" "+inventory.get(j).isEmpty()+" "+inventory.get(j).getCount()+" meta: "+inventory.get(j).getMetadata()+" "+stack.getMetadata());
+                        //System.out.println("inv slot "+j+" "+inventory.get(j)+" "+inventory.get(j).isEmpty()+" "+inventory.get(j).getCount()+" meta: "+inventory.get(j).getMetadata()+" "+stack.getMetadata());
                         if (!inventory.get(j).isEmpty() && (!inventory.get(j).getItem().equals(stack.getItem()) || inventory.get(j).getMetadata() != stack.getMetadata())) {
-                            System.out.println("fail 13-17 "+j);
+                            //System.out.println("fail 13-17 "+j);
                             return stack;
                         }
                     }
@@ -1074,20 +1074,20 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 return true;
             return false;
         }*/
-        if (process.recipe instanceof PowerLoomRecipe) {
+        /*if (process.recipe instanceof PowerLoomRecipe) {
             System.out.println("primer match "+((PowerLoomRecipe) process.recipe).secondaryInput.matches(new ItemStack(this.inventory.get(16).getItem(),64,this.inventory.get(16).getMetadata())));
             System.out.println("count match 16 "+(this.inventory.get(16).getCount() >= 16));
             System.out.println("inv 13 14 15 "+this.inventory.get(13)+" "+this.inventory.get(14)+" "+this.inventory.get(15)+" "+((PowerLoomRecipe) process.recipe).secondaryInput.getExampleStack());
             System.out.println("rest match "+(((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(13)) ||
                     ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(14)) ||
                     ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(15))));
-        }
+        }*/
         if (process.recipe instanceof PowerLoomRecipe && ((PowerLoomRecipe) process.recipe).secondaryInput.matches(new ItemStack(this.inventory.get(16).getItem(),64,this.inventory.get(16).getMetadata())) &&
                 this.inventory.get(16).getCount() >= 16 &&
                 (((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(13)) ||
                 ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(14)) ||
                 ((PowerLoomRecipe) process.recipe).secondaryInput.matches(this.inventory.get(15)))) {
-            System.out.println("SUCCESS ADDITIONAL CHECK");
+            //System.out.println("SUCCESS ADDITIONAL CHECK");
             return true;
         }
         return false;

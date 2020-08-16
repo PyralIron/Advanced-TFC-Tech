@@ -11,7 +11,6 @@ import com.pyraliron.advancedtfctech.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -43,7 +42,7 @@ public class AdvancedTFCTech {
 
 		MinecraftForge.EVENT_BUS.register(new com.pyraliron.advancedtfctech.util.handlers.EventHandler());
 		blockMetalMultiblock = new BlockATTMetalMultiblocks();
-		OBJLoader.INSTANCE.addDomain("immersiveengineering:metalmultiblock/arcfurnace.obj");
+		//OBJLoader.INSTANCE.addDomain("immersiveengineering:metalmultiblock/arcfurnace.obj");
 		proxy.registerRenderers();
 		MultiblockHandler.registerMultiblock(MultiblockPowerLoom.instance);
 		//GameRegistry.registerTileEntity(TileEntityAdvancedNote.class, Reference.MOD_ID+"advanced_note_block"/*ModBlocks.ADVANCED_NOTE_BLOCK.getRegistryName()*/);

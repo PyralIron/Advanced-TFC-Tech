@@ -54,7 +54,7 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
         boolean mirror = false;
         boolean b = this.structureCheck(world, pos.offset(side.getOpposite()), side, mirror);
         if (!b) {
-            System.out.println("b false");
+            //System.out.println("b false");
             mirror = true;
             b = structureCheck(world, pos.offset(side.getOpposite()), side, mirror);
         }
