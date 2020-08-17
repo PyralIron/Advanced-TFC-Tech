@@ -375,7 +375,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
         }
         //System.out.println("IS SHIFT KEY DOWN "+ GuiScreen.isShiftKeyDown()+" "+!player.getHeldItem(hand).isEmpty()+" "+hand+" "+player.getHeldItem(hand));
 
-        if (Side == Side.Client && GuiScreen.isShiftKeyDown() && !player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND) {
+        if (player.isSneaking() && !player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND && !world.isRemote) {
 
             TileEntity te = world.getTileEntity(pos);
             //System.out.println("TILE ENTITY "+te);
@@ -435,7 +435,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
 
             }
             return false;
-        } else if (!GuiScreen.isShiftKeyDown() && player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND) {
+        } else if (!player.isSneaking() && player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND && !world.isRemote) {
 
             TileEntity te = world.getTileEntity(pos);
             if (te instanceof TileEntityPowerLoom && !((TileEntityPowerLoom) te).master().isTicking) {
