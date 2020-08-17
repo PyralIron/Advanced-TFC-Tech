@@ -6,4 +6,4 @@ Introducing, the Power Loom! Industrial-wave technology has brought a better, fa
 
 (Dependencies: Immersive Engineering 0.98, Immersive Petroleum 1.1.9, Terrafirmacraft-TNG 1.6.0.156)
 
-The[CurseForge](https://www.curseforge.com/minecraft/mc-mods/advanced-tfc-tech)page contains information on recipes and other details.
+The [CurseForge](https://www.curseforge.com/minecraft/mc-mods/advanced-tfc-tech) page contains information on recipes and other details.
