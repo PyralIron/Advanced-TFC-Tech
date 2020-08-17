@@ -375,7 +375,7 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
         }
         //System.out.println("IS SHIFT KEY DOWN "+ GuiScreen.isShiftKeyDown()+" "+!player.getHeldItem(hand).isEmpty()+" "+hand+" "+player.getHeldItem(hand));
 
-        if (GuiScreen.isShiftKeyDown() && !player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND) {
+        if (Side == Side.Client && GuiScreen.isShiftKeyDown() && !player.getHeldItem(hand).isEmpty() && hand == EnumHand.MAIN_HAND) {
 
             TileEntity te = world.getTileEntity(pos);
             //System.out.println("TILE ENTITY "+te);

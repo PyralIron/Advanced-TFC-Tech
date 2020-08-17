@@ -42,7 +42,7 @@ public class RegistryHandler {
 		{
 
 			if (item.getRegistryName() == null) {
-				event.getRegistry().register(item.setRegistryName(createRegistryName(item.getUnlocalizedName())));
+				event.getRegistry().register(item.setRegistryName(createRegistryName(item.getTranslationKey())));
 			} else {
 				event.getRegistry().register(item);
 			}
@@ -56,8 +56,8 @@ public class RegistryHandler {
 
 		for (Block block : registeredATTBlocks)
 		{
-			System.out.println(block.getUnlocalizedName());
-			event.getRegistry().register(block.setRegistryName(createRegistryName(block.getUnlocalizedName())));
+			System.out.println(block.getTranslationKey());
+			event.getRegistry().register(block.setRegistryName(createRegistryName(block.getTranslationKey())));
 			System.out.println(block.getRegistryName());
 		}
 	}

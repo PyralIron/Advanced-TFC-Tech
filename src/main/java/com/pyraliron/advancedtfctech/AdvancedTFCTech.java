@@ -35,6 +35,7 @@ public class AdvancedTFCTech {
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
 	public static CommonProxy proxy;
 
+
 	public static ModItems modItems = new ModItems();
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {

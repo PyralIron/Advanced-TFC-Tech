@@ -8,9 +8,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+
 public class ModItems {
     public static final CreativeTabs tabAdvancedTFCTech = (new CreativeTabs("advancedTFCTech") {
-        @Override public ItemStack getTabIconItem() {
+        @Override public ItemStack createIcon() {
             return new ItemStack(PIRN);
         }
     });

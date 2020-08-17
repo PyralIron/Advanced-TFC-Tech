@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 public class ItemBase extends ItemTFC implements IHasModel {
 
     public ItemBase(String name, CreativeTabs tab) {
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName("att:"+name);
         setCreativeTab(tab);
         //System.out.println("ITEM ADDED-----------------------------------------------------------------------");
