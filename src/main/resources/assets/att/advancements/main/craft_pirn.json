@@ -1,18 +1,16 @@
 {
   "display": {
     "icon": {
-      "item": "tfc:wood/loom/maple"
+      "item": "att:pirn"
     },
     "title": {
-      "translate": "advancement.att:root"
+      "translate": "advancement.att:craftPirn"
     },
     "description": {
-      "translate": "advancement.att:root.desc"
-    },
-    "background": "immersiveengineering:textures/blocks/treated_wood.png",
-    "show_toast": false,
-    "announce_to_chat": false
+      "translate": "advancement.att:craftPirn.desc"
+    }
   },
+  "parent": "att:main/root",
   "criteria": {
     "craft_pirn": {
       "trigger": "minecraft:inventory_changed",

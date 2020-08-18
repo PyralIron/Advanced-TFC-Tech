@@ -11,7 +11,7 @@
     },
     "frame": "goal"
   },
-  "parent": "att:main/root",
+  "parent": "att:main/craft_pirn",
   "criteria": {
     "craft_hammer": {
       "trigger": "minecraft:inventory_changed",

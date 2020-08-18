@@ -2,6 +2,7 @@ package com.pyraliron.advancedtfctech.client.render;
 
 import blusunrize.immersiveengineering.client.ClientUtils;
 import com.pyraliron.advancedtfctech.client.model.ModelPowerLoom;
+import com.pyraliron.advancedtfctech.crafting.PowerLoomRecipe;
 import com.pyraliron.advancedtfctech.te.TileEntityPowerLoom;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -68,11 +69,14 @@ public class TileRenderPowerLoom extends TileEntitySpecialRenderer<TileEntityPow
                 model.ticks = modelM.ticks = ((float)((TileEntityPowerLoom.TileEntityPowerLoomParent) te).tick)/(float)((TileEntityPowerLoom.TileEntityPowerLoomParent) te).maxTicks;
                 //IMultiblockRecipe recipe = ((TileEntityPowerLoom.TileEntityPowerLoomParent) te).processQueue.get(0).recipe;
                 //if (recipe instanceof PowerLoomRecipe) {
-                    processType = te.processType;
                 //}
             }
             else {
                 model.ticks = modelM.ticks = 0F;
+            }
+            for (int i = 0; i < 17; i++) {
+                if (i >= 8 && i < 13) {continue;}
+                if (te.inventory.get(i).getCount() > 0) {processType = PowerLoomRecipe.EnumPowerLoomProcessType.getTypeFromStack(te.inventory.get(i)).ordinal();break;}
             }
             //System.out.println("inventory for tile "+te.inventory);
 

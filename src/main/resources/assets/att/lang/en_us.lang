@@ -17,7 +17,9 @@ ie.manual.entry.pirn1=
 ie.manual.entry.pirn2=
 ie.manual.entry.pirn3=
 
-advancement.att:root=Winder
-advancement.att:root.desc=Craft a Pirn
+advancement.att:root=Advanced TFC Tech
+advancement.att:root.desc=Machines for large-scale production
+advancement.att:craftPirn=Winder
+advancement.att:craftPirn.desc=Craft a Pirn
 advancement.att:craftWovenPirn=Stop Winding
 advancement.att:craftWovenPirn.desc=Craft all Winded Pirns

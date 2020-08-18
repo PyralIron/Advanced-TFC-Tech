@@ -183,6 +183,11 @@ public class PowerLoomRecipe extends MultiblockRecipe {
         public ItemStack getOutputFromType() {
             return this.ordinal() == WOOL_CLOTH.ordinal() ? new ItemStack(ItemsTFC.WOOL_CLOTH) : this.ordinal() == EnumPowerLoomProcessType.SILK_CLOTH.ordinal() ? new ItemStack(ItemsTFC.SILK_CLOTH) : new ItemStack(ItemsTFC.BURLAP_CLOTH);
         }
+        public static EnumPowerLoomProcessType getTypeFromStack(ItemStack stack) {
+            if (stack.getItem().equals(ItemsTFC.JUTE_FIBER) || stack.getItem().equals(IEContent.itemMaterial) && stack.getMetadata() == 4 || stack.getItem().equals(ModItems.FIBER_WINDED_PIRN)) { return BURLAP; }
+            else if (stack.getItem().equals(ItemsTFC.WOOL_YARN) || stack.getItem().equals(ModItems.WOOL_WINDED_PIRN)) {return WOOL_CLOTH;}
+            else {return SILK_CLOTH;}
+        }
 
     }
 

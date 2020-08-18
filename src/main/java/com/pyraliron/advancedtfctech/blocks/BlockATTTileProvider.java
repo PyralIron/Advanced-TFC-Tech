@@ -412,11 +412,11 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                     }
                 }
                 //System.out.println("SHIFT COUNT "+shiftCount +" "+j);
-                if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeInput(shiftCount)) {
+                if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeInput(shiftCount) && j < 8) {
                     ItemStack result = tem.inputHandler.insertItem(j,new ItemStack(player.getHeldItem(hand).getItem()),false);
                     player.getHeldItem(hand).shrink(1-result.getCount());
                     return true;
-                } else if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeSecondary(new ItemStack(shiftCount.getItem(),64,shiftCount.getMetadata()))) {
+                } else if (!shiftCount.isEmpty() && PowerLoomRecipe.isValidRecipeSecondary(new ItemStack(shiftCount.getItem(),64,shiftCount.getMetadata())) && j > 12) {
                     //System.out.println("actually works");
                     ItemStack result = tem.inputHandler.insertItem(j,player.getHeldItem(hand),false);
                     //System.out.println("RESULT "+result.getCount());
@@ -453,17 +453,19 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                 }
                 else if (((TileEntityPowerLoom) te).getFakepos() == 3 || ((TileEntityPowerLoom) te).getFakepos() == 6 || ((TileEntityPowerLoom) te).getFakepos() == 9) {
                     for (int i = 13; i < 16; i++) {
+                        System.out.println("player count "+player.getHeldItem(hand).getCount()+" stored "+tem.inventory.get(i).getCount());
                         if (tem.inputHandler.getStackInSlot(i).getCount() > 0) {
                             int count;
                             if (player.getHeldItem(hand).isEmpty()) {
                                 player.setHeldItem(hand,new ItemStack(tem.inventory.get(i).getItem(),tem.inventory.get(i).getCount(),tem.inventory.get(i).getMetadata()));
                                 tem.inventory.get(i).shrink(tem.inventory.get(i).getCount());
+                                continue;
                             }
                             if (!tem.inventory.get(i).getItem().equals(player.getHeldItem(hand).getItem()) || tem.inventory.get(i).getMetadata() != player.getHeldItem(hand).getMetadata()) { continue; }
                             //TODO: Change this to care about stack size
                             count = Math.min(64,tem.inventory.get(i).getCount()+player.getHeldItem(hand).getCount());
+                            tem.inventory.get(i).shrink(count-player.getHeldItem(hand).getCount());
                             player.getHeldItem(hand).grow(count-player.getHeldItem(hand).getCount());
-                            tem.inventory.get(i).shrink(count);
                             break;
                         }
                     }
@@ -487,8 +489,8 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
                             if (!tem.inventory.get(i).getItem().equals(player.getHeldItem(hand).getItem()) || tem.inventory.get(i).getMetadata() != player.getHeldItem(hand).getMetadata()) { continue; }
 
                             count = Math.min(64,tem.inventory.get(i).getCount()+player.getHeldItem(hand).getCount());
+                            tem.inventory.get(i).shrink(count-player.getHeldItem(hand).getCount());
                             player.getHeldItem(hand).grow(count-player.getHeldItem(hand).getCount());
-                            tem.inventory.get(i).shrink(count);
                             break;
                         }
                     }
