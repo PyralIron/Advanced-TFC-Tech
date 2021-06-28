@@ -10,7 +10,10 @@ import blusunrize.immersiveengineering.api.IEProperties;
 import blusunrize.immersiveengineering.common.blocks.TileEntityMultiblockPart;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockMetal;
 import com.pyraliron.advancedtfctech.blocks.ItemBlockATTBase;
+import com.pyraliron.advancedtfctech.te.TileEntityDoughMixer;
+import com.pyraliron.advancedtfctech.te.TileEntityGristMill;
 import com.pyraliron.advancedtfctech.te.TileEntityPowerLoom;
+import com.pyraliron.advancedtfctech.te.TileEntityThresher;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
@@ -65,6 +68,18 @@ public class BlockATTMetalMultiblocks extends BlockATTMultiblock<BlockTypes_ATTM
                 return new TileEntityPowerLoom();
             case POWERLOOM_PARENT:
                 return new TileEntityPowerLoom.TileEntityPowerLoomParent();
+            case THRESHER:
+                return new TileEntityThresher();
+            case THRESHER_PARENT:
+                return new TileEntityThresher.TileEntityThresherParent();
+            case GRISTMILL:
+                return new TileEntityGristMill();
+            case GRISTMILL_PARENT:
+                return new TileEntityGristMill.TileEntityGristMillParent();
+            case DOUGHMIXER:
+                return new TileEntityDoughMixer();
+            case DOUGHMIXER_PARENT:
+                return new TileEntityDoughMixer.TileEntityDoughMixerParent();
         }
         return null;
     }

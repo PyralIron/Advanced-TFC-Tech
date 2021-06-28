@@ -61,11 +61,16 @@ public class PowerLoomRecipe extends MultiblockRecipe {
     @Override
     public void setupJEI() {
         super.setupJEI();
-//		List<ItemStack>[] newJeiItemOutputList = new ArrayList[jeiItemOutputList.length+1];
-//		System.arraycopy(jeiItemOutputList,0, newJeiItemOutputList,0, jeiItemOutputList.length);
-//		newJeiItemOutputList[jeiItemOutputList.length] = Lists.newArrayList(slag);
-//		jeiItemOutputList = newJeiItemOutputList;
-        //this.jeiTotalItemOutputList.add(slag);
+        List<ItemStack>[] newJeiItemInputList = new ArrayList[jeiItemInputList.length+1];
+        System.arraycopy(jeiItemInputList,0, newJeiItemInputList,0, jeiItemInputList.length);
+        newJeiItemInputList[jeiItemInputList.length] = Lists.newArrayList(this.secondaryInput.stack);
+        jeiItemInputList = newJeiItemInputList;
+        this.jeiTotalItemInputList.add(this.secondaryInput.stack);
+		List<ItemStack>[] newJeiItemOutputList = new ArrayList[jeiItemOutputList.length+1];
+		System.arraycopy(jeiItemOutputList,0, newJeiItemOutputList,0, jeiItemOutputList.length);
+		newJeiItemOutputList[jeiItemOutputList.length] = Lists.newArrayList(this.secondaryOutput);
+		jeiItemOutputList = newJeiItemOutputList;
+        this.jeiTotalItemOutputList.add(this.secondaryOutput);
     }
 
     @Override

@@ -2,8 +2,13 @@ item.pirn.name=Pirn
 item.fiber_winded_pirn.name=Fiber-Winded Pirn
 item.silk_winded_pirn.name=Silk-Winded Pirn
 item.wool_winded_pirn.name=Wool-Winded Pirn
-desc.immersiveengineering.info.multiblock.att:powerloom=Power Loom
+
 itemGroup.advancedTFCTech=Advanced TFC Tech
+
+desc.immersiveengineering.info.multiblock.att:powerloom=Power Loom
+desc.immersiveengineering.info.multiblock.att:thresher=Thresher
+desc.immersiveengineering.info.multiblock.att:gristmill=Gristmill
+desc.immersiveengineering.info.multiblock.att:doughmixer=Dough Mixer
 
 ie.manual.category.att.name=TerraFirmaCraft Tech
 
@@ -17,9 +22,31 @@ ie.manual.entry.pirn1=
 ie.manual.entry.pirn2=
 ie.manual.entry.pirn3=
 
+ie.manual.entry.thresher.name=Thresher
+ie.manual.entry.thresher.subtext=Shed Your Husk
+ie.manual.entry.thresher0=A thresher separates chaff from grain using rotating cylinders and mechanical power.
+ie.manual.entry.thresher1=Below are the operations the Thresher can perform:
+
+ie.manual.entry.gristMill.name=Grist Mill
+ie.manual.entry.gristMill.subtext=Flour Power
+ie.manual.entry.gristMill0=A grist mill grains raw grain into more edible flour.
+ie.manual.entry.gristMill1=Below are the operations the Grist Mill can perform:
+
 advancement.att:root=Advanced TFC Tech
 advancement.att:root.desc=Machines for large-scale production
 advancement.att:craftPirn=Winder
 advancement.att:craftPirn.desc=Craft a Pirn
 advancement.att:craftWovenPirn=Stop Winding
 advancement.att:craftWovenPirn.desc=Craft all Winded Pirns
+
+# JEI
+jei.category.att.powerloom=Power Loom
+jei.category.att.thresher=Thresher
+jei.category.att.gristmill=Grist Mill
+jei.category.att.doughmixer=Dough Mixer
+
+powerloom_parent.name=Power Loom
+thresher_parent.name=Thresher
+gristmill_parent.name=Grist Mill
+doughmixer_parent.name=Dough Mixer
+

@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class MultiblockRecipe implements IMultiblockRecipe, IJEIRecipe {
+public abstract class MultiblockRecipe extends blusunrize.immersiveengineering.api.crafting.MultiblockRecipe implements IMultiblockRecipe, IJEIRecipe {
     protected List<IngredientStack> inputList;
     protected NonNullList<ItemStack> outputList;
     protected List<FluidStack> fluidInputList;

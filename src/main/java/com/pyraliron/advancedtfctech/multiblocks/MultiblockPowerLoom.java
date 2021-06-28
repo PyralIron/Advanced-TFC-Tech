@@ -14,11 +14,11 @@ import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDecor
 import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDecoration1;
 import com.pyraliron.advancedtfctech.AdvancedTFCTech;
 import com.pyraliron.advancedtfctech.te.TileEntityPowerLoom;
+import com.pyraliron.advancedtfctech.util.MultiblockStructureUtils;
 import flaxbeard.immersivepetroleum.common.IPContent;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
     public static MultiblockPowerLoom instance = new MultiblockPowerLoom();
     static ItemStack[][][] structure = new ItemStack[3][5][3];
-    static final IngredientStack[] materials;
+    static IngredientStack[] materials;
     static boolean needFix = true;
     @Override
     public String getUniqueName()
@@ -58,9 +58,8 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
             mirror = true;
             b = structureCheck(world, pos.offset(side.getOpposite()), side, mirror);
         }
-        if (!b)
-            return false;
-        if (b)
+
+        if (b) {
             for (int h = -1; h <= 1; h++) {
                 for (int l = 0; l <= 4; l++) {
                     for (int w = -1; w <= 1; w++) {
@@ -69,7 +68,7 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
 
                         if (l == 0 && w == 0 && h == 0) {
                             world.setBlockState(pos2, AdvancedTFCTech.blockMetalMultiblock.getStateFromMeta(BlockTypes_ATTMetalMultiblock.POWERLOOM_PARENT.getMeta()));
-                        } else if (this.structure[h+1][l][w+1] != ItemStack.EMPTY) {
+                        } else if (this.structure[h + 1][l][w + 1] != ItemStack.EMPTY) {
                             world.setBlockState(pos2, AdvancedTFCTech.blockMetalMultiblock.getStateFromMeta(BlockTypes_ATTMetalMultiblock.POWERLOOM.getMeta()));
                         }
                         TileEntity curr = world.getTileEntity(pos2);
@@ -79,8 +78,7 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
                             tile.formed = true;
                             //tile.pos = (h + 1) * 18 + (l + 1) * 3 + (w + 1);
 
-                            /* obfuscated field ? why ? this is pos */
-                            tile.field_174879_c = ((h + 1) * 15 + (l) * 3 + (w + 1));
+                            tile.pos = ((h + 1) * 15 + (l) * 3 + (w + 1));
                             tile.setPos((h + 1) * 15 + (l) * 3 + (w + 1));
                             tile.offset = new int[]{(side == EnumFacing.WEST ? -l : side == EnumFacing.EAST ? l : side == EnumFacing.NORTH ? ww : -ww), h, (side == EnumFacing.NORTH ? -l : side == EnumFacing.SOUTH ? l : side == EnumFacing.EAST ? ww : -ww)};
                             //System.out.println(tile.offset);
@@ -91,7 +89,8 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
                     }
                 }
             }
-        return false;
+        }
+        return b;
    }
     @Override
     public IBlockState getBlockstateFromStack(int index, ItemStack stack)
@@ -133,7 +132,8 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
                     System.out.println(MultiblockPowerLoom.structure[h+1][l][w+1].getMetadata());
                     System.out.println(world.getBlockState(pos2).getBlock().getMetaFromState(world.getBlockState(pos2)));*/
                     if (structure[h+1][l][w+1].isEmpty()) {continue;}
-                    if (!(Block.getBlockFromItem(MultiblockPowerLoom.structure[h+1][l][w+1].getItem()) == world.getBlockState(pos2).getBlock()
+                    if (!MultiblockStructureUtils.oredictCheck(structure[h+1][l][w+1],pos2,world)) {return false;}
+                    else if (!(Block.getBlockFromItem(MultiblockPowerLoom.structure[h+1][l][w+1].getItem()) == world.getBlockState(pos2).getBlock()
                             &&MultiblockPowerLoom.structure[h+1][l][w+1].getMetadata() == world.getBlockState(pos2).getBlock().getMetaFromState(world.getBlockState(pos2)))) {formed = false;}
 
                 }
@@ -152,6 +152,17 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
 
     @Override
     public IngredientStack[] getTotalMaterials() {
+        if (materials == null) {
+            materials = new IngredientStack[]{
+                    new IngredientStack(new ItemStack(IEContent.blockMetalDecoration1, 13, BlockTypes_MetalDecoration1.STEEL_SCAFFOLDING_0.getMeta())),
+                    new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 3, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())),
+                    new IngredientStack(new ItemStack(IEContent.blockSheetmetal, 5, BlockTypes_MetalsIE.STEEL.getMeta())),
+                    new IngredientStack(new ItemStack(IEContent.blockMetalDecoration1, 1, BlockTypes_MetalDecoration1.STEEL_FENCE.getMeta())),
+                    new IngredientStack(new ItemStack(IEContent.blockStorage, 1, BlockTypes_MetalsIE.STEEL.getMeta())),
+                    new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 3, BlockTypes_MetalDecoration0.LIGHT_ENGINEERING.getMeta())),
+                    new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta()))
+            };
+        }
         return materials;
     }
 
@@ -175,7 +186,7 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
     }
 
     Object te;
-
+    ItemStack renderStack;
     @Override
     @SideOnly(Side.CLIENT)
     public void renderFormedStructure()
@@ -187,6 +198,17 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
 
         //ImmersivePetroleum.proxy.renderTile((TileEntity) te);
         AdvancedTFCTech.proxy.renderTile((TileEntity) te);
+//        if(renderStack.isEmpty())
+//            renderStack = new ItemStack(IEContent.blockMetalMultiblock, 1, BlockTypes_MetalMultiblock.ARC_FURNACE.getMeta());
+//
+//        GlStateManager.translate(2.5, 2.25, 2.25);
+//        GlStateManager.rotate(-45, 0, 1, 0);
+//        GlStateManager.rotate(-20, 1, 0, 0);
+//        GlStateManager.scale(6.5, 6.5, 6.5);
+//
+//        GlStateManager.disableCull();
+//        ClientUtils.mc().getRenderItem().renderItem(renderStack, ItemCameraTransforms.TransformType.GUI);
+//        GlStateManager.enableCull();
     }
     public static void fixStructure() {
         if (MultiblockPowerLoom.needFix) {MultiblockPowerLoom.needFix = false;}
@@ -233,32 +255,6 @@ public class MultiblockPowerLoom implements MultiblockHandler.IMultiblock {
         structure[1][1][0] = new ItemStack(Blocks.DIRT,1);
         structure[1][1][1] = new ItemStack(Blocks.DIRT,1);
         structure[1][1][2] = new ItemStack(Blocks.DIRT,1);*/
-    }
-    static {
-        /*structure[0][0][0] = new ItemStack(Blocks.LOG,1, 0);
-        structure[0][0][1] = new ItemStack(Blocks.LOG,1,1);
-        structure[0][0][2] = new ItemStack(Blocks.LOG,1,2);
-        structure[1][0][0] = new ItemStack(Blocks.DIRT,1);
-        structure[1][0][1] = new ItemStack(Blocks.DIRT,1);
-        structure[1][0][2] = new ItemStack(Blocks.DIRT,1);
-        structure[0][1][0] = new ItemStack(Blocks.DIRT,1);
-        structure[0][1][1] = new ItemStack(Blocks.DIRT,1);
-        structure[0][1][2] = new ItemStack(Blocks.DIRT,1);
-        structure[1][1][0] = new ItemStack(Blocks.DIRT,1);
-        structure[1][1][1] = new ItemStack(IEContent.blockMetalDecoration0, 1,0);//, BlockTypes_MetalDecoration0.LIGHT_ENGINEERING.getMeta());
-        System.out.println("SHIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIT"+new ItemStack(IEContent.blockMetalDecoration0, 1,0));
-        structure[1][1][2] = new ItemStack(Blocks.DIRT,1);
-        materials = new IngredientStack[]{new IngredientStack("scaffoldingSteel", 11), new IngredientStack("fenceTreatedWood", 6), new IngredientStack(new ItemStack(IEContent.blockMetalDevice1, 4, BlockTypes_MetalDevice1.FLUID_PIPE.getMeta())), new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta())), new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 2, BlockTypes_MetalDecoration0.LIGHT_ENGINEERING.getMeta())), new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 2, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())), new IngredientStack("blockSteel", 2), new IngredientStack("blockSheetmetalSteel", 4)};*/
-        materials = new IngredientStack[]{
-                new IngredientStack(new ItemStack(IEContent.blockMetalDecoration1, 6, BlockTypes_MetalDecoration1.STEEL_SCAFFOLDING_0.getMeta())),
-                new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 3, BlockTypes_MetalDecoration0.HEAVY_ENGINEERING.getMeta())),
-                new IngredientStack(new ItemStack(Blocks.PISTON, 3, EnumFacing.DOWN.ordinal())),
-                new IngredientStack(new ItemStack(IEContent.blockMetalDecoration1, 3, BlockTypes_MetalDecoration1.STEEL_FENCE.getMeta())),
-                new IngredientStack(new ItemStack(IEContent.blockStorage, 1, BlockTypes_MetalsIE.STEEL.getMeta())),
-                new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 3, BlockTypes_MetalDecoration0.LIGHT_ENGINEERING.getMeta())),
-                new IngredientStack(new ItemStack(IEContent.blockMetalDecoration0, 1, BlockTypes_MetalDecoration0.RS_ENGINEERING.getMeta()))
-        };
-
 
     }
 

@@ -1,6 +1,8 @@
 package com.pyraliron.advancedtfctech.client.gui;
 
+import com.pyraliron.advancedtfctech.crafting.GristMillRecipe;
 import com.pyraliron.advancedtfctech.crafting.PowerLoomRecipe;
+import com.pyraliron.advancedtfctech.crafting.ThresherRecipe;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -34,7 +36,7 @@ public abstract class ATTSlot extends Slot {
         @Override
         public boolean isItemValid(ItemStack itemStack)
         {
-            System.out.println(itemStack.getItem()+" IS VALID ? : "+PowerLoomRecipe.isValidRecipeInput(itemStack));
+            //System.out.println(itemStack.getItem()+" IS VALID ? : "+PowerLoomRecipe.isValidRecipeInput(itemStack));
             //System.out.println(PowerLoomRecipe.isValidRecipeInput(itemStack)+" "+itemStack);
             return !itemStack.isEmpty() && PowerLoomRecipe.isValidRecipeInput(itemStack);
         }
@@ -56,6 +58,30 @@ public abstract class ATTSlot extends Slot {
             return !itemStack.isEmpty() && PowerLoomRecipe.isValidRecipeInput(itemStack);
         }
 
+    }
+    public static class ThresherInput extends ATTSlot
+    {
+        public ThresherInput(Container container, IInventory inv, int id, int x, int y)
+        {
+            super(container, inv, id, x, y);
+        }
+        @Override
+        public boolean isItemValid(ItemStack itemStack)
+        {
+            return !itemStack.isEmpty() && ThresherRecipe.isValidRecipeInput(itemStack);
+        }
+    }
+    public static class GristMillInput extends ATTSlot
+    {
+        public GristMillInput(Container container, IInventory inv, int id, int x, int y)
+        {
+            super(container, inv, id, x, y);
+        }
+        @Override
+        public boolean isItemValid(ItemStack itemStack)
+        {
+            return !itemStack.isEmpty() && GristMillRecipe.isValidRecipeInput(itemStack);
+        }
     }
     public static class WinderInput extends ATTSlot
     {

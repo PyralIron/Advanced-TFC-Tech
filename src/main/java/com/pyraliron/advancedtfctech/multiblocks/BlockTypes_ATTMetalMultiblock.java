@@ -14,7 +14,13 @@ import java.util.Locale;
 
 public enum BlockTypes_ATTMetalMultiblock implements IStringSerializable, BlockIPBase.IBlockEnum, BlockATTBase.IBlockEnum {
     POWERLOOM(false),
-    POWERLOOM_PARENT(false);
+    POWERLOOM_PARENT(false),
+    THRESHER(false),
+    THRESHER_PARENT(false),
+    GRISTMILL(false),
+    GRISTMILL_PARENT(false),
+    DOUGHMIXER(false),
+    DOUGHMIXER_PARENT(false);
 
     private boolean needsCustomState;
 

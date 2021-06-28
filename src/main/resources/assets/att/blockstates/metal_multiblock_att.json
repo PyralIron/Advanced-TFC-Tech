@@ -1,59 +1,87 @@
 {
   "forge_marker": 1,
-  "defaults":
-  {
-
+  "defaults": {
+    "model": "builtin/generated",
+    "transform": "forge:default-item",
     "textures": {
-      "particle": "immersiveengineering:blocks/storage_steel"
+      "layer0": "att:items/silk_woven_pirn"
     }
   },
   "variants":
   {
-    "normal": [{
-      "model": "immersiveengineering:metal_multiblock/arc_furnace.obj",
-      "transform": {
-        "scale": 1.875,
-        "rotation": [
-          {
-            "x": 20
-          },
-          {
-            "y": -45
-          }
-        ],
-        "translation": [
-          0,
-          -0.25,
-          0
-        ]
-      }
-    }],
-    "inventory": [{
-      "model": "immersiveengineering:metal_multiblock/arc_furnace.obj",
-      "transform": {
-        "scale": 1.875,
-        "rotation": [
-          {
-            "x": 20
-          },
-          {
-            "y": -45
-          }
-        ],
-        "translation": [
-          0,
-          -0.25,
-          0
-        ]
-      }
-    }],
     "type":
     {
       "powerloom_parent": {
-
       },
       "powerloom": {
-
+      },
+      "thresher_parent": {
+      },
+      "thresher": {
+      },
+      "gristmill_parent": {
+      },
+      "gristmill": {
+      },
+      "doughmixer_parent": {
+      },
+      "doughmixer": {
+      }
+    },
+    "inventory,type=powerloom": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "att:items/pirn"
+      }
+    },
+    "inventory,type=powerloom_parent": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "att:items/pirn"
+      }
+    },
+    "inventory,type=thresher": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "att:items/thresher"
+      }
+    },
+    "inventory,type=thresher_parent": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "att:items/thresher"
+      }
+    },
+    "inventory,type=gristmill": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "att:gui/gristmill"
+      }
+    },
+    "inventory,type=gristmill_parent": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "att:gui/gristmill"
+      }
+    },
+    "inventory,type=doughmixer": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "tfc:items/food/barley_dough"
+      }
+    },
+    "inventory,type=doughmixer_parent": {
+      "model": "builtin/generated",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "tfc:items/food/barley_dough"
       }
     },
     "facing":
@@ -77,7 +105,7 @@
 
       },
       "true":{
-        "model": "immersiveengineering:ie_empty"
+
       }
     },
     "_1dynamicrender":
@@ -87,17 +115,15 @@
 
       },
       "true":{
-        "model": "immersiveengineering:metal_multiblock/arc_furnace_electrodes.obj.ie"
+
 
       }
     },
     "boolean0":
     {
       "false":{
-        "model": "immersiveengineering:metal_multiblock/arc_furnace.obj"
       },
       "true": {
-        "model": "immersiveengineering:metal_multiblock/arc_furnace_mirrored.obj"
       }
     }
   }

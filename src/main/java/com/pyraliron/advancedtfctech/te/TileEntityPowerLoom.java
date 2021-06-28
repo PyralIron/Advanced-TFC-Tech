@@ -54,9 +54,14 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
     public boolean isTicking;
     public int processType;
 
+    // Visual
+    public int pirnRotation;
+
     final int[] capabilityList = {1,16,3,6,9};
     public ContainerPowerLoom container;
     public NonNullList<ItemStack> inventory = NonNullList.withSize(17, ItemStack.EMPTY);
+
+    AxisAlignedBB aabb;
 
     public static class TileEntityPowerLoomParent extends TileEntityPowerLoom
     {
@@ -64,8 +69,23 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         @Override
         public AxisAlignedBB getRenderBoundingBox()
         {
+            //System.out.println(this.getPos());
             BlockPos nullPos = this.getPos();
-            return new AxisAlignedBB(nullPos.offset(facing, -2).offset(mirrored ? facing.rotateYCCW() : facing.rotateY(), -1).down(1), nullPos.offset(facing, 5).offset(mirrored ? facing.rotateYCCW() : facing.rotateY(), 2).up(3));
+            if (aabb != null)
+                return aabb;
+            //System.out.println(getPos());
+            if (facing == EnumFacing.NORTH) {
+                aabb = new AxisAlignedBB(getPos().getX()-2,getPos().getY()-2,getPos().getZ()-5,getPos().getX()+2,getPos().getY()+2,getPos().getZ()+1);
+            } else if (facing == EnumFacing.SOUTH) {
+                aabb = new AxisAlignedBB(getPos().getX()-2,getPos().getY()-2,getPos().getZ()-1,getPos().getX()+2,getPos().getY()+2,getPos().getZ()+5);
+            } else if (facing == EnumFacing.WEST) {
+                aabb = new AxisAlignedBB(getPos().getX()-5,getPos().getY()-2,getPos().getZ()-2,getPos().getX()+1,getPos().getY()+2,getPos().getZ()+2);
+            } else {
+                aabb = new AxisAlignedBB(getPos().getX()-1,getPos().getY()-2,getPos().getZ()-2,getPos().getX()+5,getPos().getY()+2,getPos().getZ()+2);
+            }
+            //System.out.println(facing+" "+aabb);
+            return aabb;
+            //return new AxisAlignedBB(nullPos.offset(facing, -2).offset(mirrored ? facing.rotateYCCW() : facing.rotateY(), -1).down(1), nullPos.offset(facing, 5).offset(mirrored ? facing.rotateYCCW() : facing.rotateY(), 2).up(3));
         }
 
         @Override
@@ -100,14 +120,17 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
     public boolean canInteractWith(EntityPlayer playerIn) {
         // If we are too far away from this tile entity you cannot use it
 
-        return !isInvalid() && playerIn.getDistanceSq(pos.add(0.5D, 0.5D, 0.5D)) <= 64D;
+        return !isInvalid() && playerIn.getDistanceSq(this.getPos().add(0.5D, 0.5D, 0.5D)) <= 64D;
     }
 
+    public String getUniqueName() {
+        return "ATT:PowerLoom";
+    }
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
-        if((IntStream.of(capabilityList).anyMatch(x -> x == field_174879_c)) && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        if((IntStream.of(capabilityList).anyMatch(x -> x == pos)) && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
             return master()!=null;
         return super.hasCapability(capability, facing);
     }
@@ -171,6 +194,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         this.isTicking = nbt.getBoolean("isTicking2");
         this.maxTicks = nbt.getInteger("maxTicks");
         this.processType = nbt.getInteger("processType");
+        this.pirnRotation = nbt.getInteger("pirnRotation");
         boolean lastActive = this.wasActive;
         if (!this.wasActive && lastActive) {
             ++this.activeTicks;
@@ -189,6 +213,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         nbt.setInteger("tick",this.processQueue.size() > 0 ? this.processQueue.get(0).processTick : 0);
         nbt.setInteger("maxTicks",this.processQueue.size() > 0 ? this.processQueue.get(0).maxTicks : 100);
         nbt.setBoolean("isTicking2",this.processQueue.size() > 0);
+        nbt.setInteger("pirnRotation",this.pirnRotation);
         this.isTicking = this.processQueue.size() > 0;
         nbt.setInteger("processType",this.processQueue.size() > 0 ? this.processQueue.get(0).recipe instanceof PowerLoomRecipe ? ((PowerLoomRecipe) this.processQueue.get(0).recipe).processType.ordinal(): 0: 0);
         //if(!descPacket)
@@ -239,8 +264,8 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                             }
                         }
                     }
-                    if(!canOutput)
-                        System.out.println("CAN'T OUTPUT");
+                    //if(!canOutput)
+                        //System.out.println("CAN'T OUTPUT");
                 }
                 //System.out.println("extra check "+this.additionalCanProcessCheck(process));
 
@@ -257,7 +282,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 this.markDirty();
 
                 /* magic to make the world go 'round ie. make the client-side and server-side match */
-                world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+                world.notifyBlockUpdate(this.getPos(), world.getBlockState(this.getPos()), world.getBlockState(this.getPos()), 3);
                 world.addBlockEvent(this.getPos(), this.getBlockType(), 255, 0);
             }
             if(process.clearProcess)
@@ -269,7 +294,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
 
         else if (!isRSDisabled() && energyStorage.getEnergyStored() > 0)
         {
-            //TODO: Use this to damage the cartridges perhaps
+
             /*if (this.tickedProcesses > 0)
                 for (int i = 23; i < 26; i++)
                     if (this.inventory.get(i).attemptDamageItem(1, Utils.RAND, null))
@@ -386,15 +411,11 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         EnumFacing fw = facing.rotateY();
         if (mirrored)
             fw = fw.getOpposite();
-        int y = (int)(pos.getX() / 16);
-        int x = (int)((pos.getY() % 16) / 4);
-        int z = (pos.getZ()) % 4;
-        int pos = x+y+z;
         float s = 0.0625F;
         //System.out.println("xyz of tile: "+x+" "+y+" "+z+" "+this.fakepos);
-        if (this.field_174879_c < 2 || this.field_174879_c == 10 || this.field_174879_c == 13 || this.field_174879_c == 28 || this.field_174879_c == 4 || this.field_174879_c == 7) {
+        if (this.pos < 2 || this.pos == 10 || this.pos == 13 || this.pos == 28 || this.pos == 4 || this.pos == 7) {
             return Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, 1, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
-        } else if (this.field_174879_c == 5)
+        } else if (this.pos == 5)
         {
 
             List list = Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, .25f, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
@@ -424,7 +445,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             }
             return list;
-        } else if (this.field_174879_c == 5+15)
+        } else if (this.pos == 5+15)
         {
             //fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList();
@@ -454,7 +475,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 4 * s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             }
             return list;
-        } else if (this.field_174879_c == 11) {
+        } else if (this.pos == 11) {
             List list = Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, .25f, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             if (mirrored) {
                 float minX = fl == EnumFacing.NORTH ? 8*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? s : 1 - 5 * s;
@@ -482,7 +503,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 list.add(new AxisAlignedBB(minX, 4 * s, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             }
             return list;
-        } else if (this.field_174879_c == 11+15) {
+        } else if (this.pos == 11+15) {
             List list = Lists.newArrayList();
             float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 6*s : fl == EnumFacing.WEST ? s : 1-5*s;
             float maxX = fl == EnumFacing.NORTH ? 10*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 5*s : 1-s;
@@ -496,7 +517,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             maxZ = fl == EnumFacing.NORTH ? 6*s : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 8*s;
             list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 4*s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             return list;
-        }else if (this.field_174879_c == 16) {
+        }else if (this.pos == 16) {
             List list = Lists.newArrayList();
             if (mirrored) {
                 float minX = fl == EnumFacing.NORTH ? s : fl == EnumFacing.SOUTH ? 3*s : fl == EnumFacing.WEST ? 0F : 7 * s;
@@ -513,7 +534,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
                 list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             }
             return list;
-        } else if (this.field_174879_c == 19+15 || this.field_174879_c == 22+15 || this.field_174879_c == 25+15) {
+        } else if (this.pos == 19+15 || this.pos == 22+15 || this.pos == 25+15) {
             fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList();
             float minX = fl == EnumFacing.NORTH ? 7.5F*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0F : 0F;
@@ -522,7 +543,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             float maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 8.5F*s;
             list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1-s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             return list;
-        } else if (this.field_174879_c == 19 || this.field_174879_c == 22 || this.field_174879_c == 25) {
+        } else if (this.pos == 19 || this.pos == 22 || this.pos == 25) {
             fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList(new AxisAlignedBB(0, 0, 0, 1, .25f, 1).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             float minX = fl == EnumFacing.NORTH ? 7.5F*s : fl == EnumFacing.SOUTH ? 0 : fl == EnumFacing.WEST ? 0F : 0F;
@@ -531,7 +552,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             float maxZ = fl == EnumFacing.NORTH ? 1 : fl == EnumFacing.SOUTH ? 1 : fl == EnumFacing.WEST ? 1 : 8.5F*s;
             list.add(new AxisAlignedBB(minX, 0, minZ, maxX, 1-s, maxZ).offset(getPos().getX(), getPos().getY(), getPos().getZ()));
             return list;
-        } else if (this.field_174879_c == 19+14 || this.field_174879_c == 22+14 || this.field_174879_c == 25+14) {
+        } else if (this.pos == 19+14 || this.pos == 22+14 || this.pos == 25+14) {
             fl = this.mirrored ? facing.getOpposite() : facing;
             List list = Lists.newArrayList();
             float minX = fl == EnumFacing.NORTH ? 0 : fl == EnumFacing.SOUTH ? 10.5F*s : fl == EnumFacing.WEST ? 0F : 0F;
@@ -727,6 +748,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
     {
         //System.out.println("POWER LOOM PROCESS FINISH");
         this.activeTicks = 0;
+        this.pirnRotation = (this.pirnRotation+1)%8;
         if(process.recipe instanceof PowerLoomRecipe && !((PowerLoomRecipe)process.recipe).secondaryOutput.isEmpty())
         {
             //System.out.println("CAN SECONDARY STACK "+ItemHandlerHelper.canItemStacksStack(this.inventory.get(11), ((PowerLoomRecipe)process.recipe).secondaryOutput));
@@ -739,7 +761,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             else if(ItemHandlerHelper.canItemStacksStack(this.inventory.get(12), ((PowerLoomRecipe)process.recipe).secondaryOutput) && !(inventory.get(12).getCount() + ((PowerLoomRecipe)process.recipe).secondaryOutput.getCount() >getSlotLimit(12)))
                 this.inventory.get(12).grow(((PowerLoomRecipe)process.recipe).secondaryOutput.getCount());
             else {
-                Utils.dropStackAtPos(world, pos, ((PowerLoomRecipe)process.recipe).secondaryOutput, facing);
+                Utils.dropStackAtPos(world, getPos(), ((PowerLoomRecipe)process.recipe).secondaryOutput, facing);
             }
         }
         if(process.recipe instanceof PowerLoomRecipe) {
@@ -802,18 +824,18 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
             TileEntityPowerLoom master = master();
             if (master==null)
                 return null;
-            if(field_174879_c==1)
+            if(pos==1)
                 return (T)master.outputHandler;
-            else if(field_174879_c==16)//field_174879_c==(mirrored?6:8))
+            else if(pos==16)//pos==(mirrored?6:8))
                 return (T)master.inputHandler;
-            else if (field_174879_c==3||field_174879_c==6||field_174879_c==9)
+            else if (pos==3||pos==6||pos==9)
                 return (T)master.secondaryInputHandler;
         }
         return super.getCapability(capability, facing);
     }
 
     public int getFakepos() {
-        return this.field_174879_c;
+        return this.pos;
     }
     @Override
     public void doGraphicalUpdates(int slot)
@@ -1036,7 +1058,7 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
     public boolean canOpenGui()
     {
         /* you can uncomment this to be able to see inside the loom for debugging purposes, maybe. but the gui is ugly. */
-        //return this.formed && this.field_174879_c == 6;
+        //return this.formed && this.pos == 6;
         return false;
     }
 
@@ -1101,17 +1123,17 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
 
         if (master != null)
         {
-            if (field_174879_c == 9 && (side == null || side == facing.rotateY() || side == facing.getOpposite().rotateY()))
+            if (pos == 9 && (side == null || side == facing.rotateY() || side == facing.getOpposite().rotateY()))
             {
                 return new FluidTank[0];
                 //return new FluidTank[]{fakeTank};
             }
-            else if (field_174879_c == 11 && (side == null || side == facing.rotateY() || side == facing.getOpposite().rotateY()))
+            else if (pos == 11 && (side == null || side == facing.rotateY() || side == facing.getOpposite().rotateY()))
             {
                 return new FluidTank[0];
                 //return new FluidTank[]{fakeTank};
             }
-            else if (field_174879_c == 16 /*&& IPConfig.Extraction.req_pipes*/ && (side == null || side == EnumFacing.DOWN))
+            else if (pos == 16 /*&& IPConfig.Extraction.req_pipes*/ && (side == null || side == EnumFacing.DOWN))
             {
                 return new FluidTank[0];
                 //return new FluidTank[]{fakeTank};

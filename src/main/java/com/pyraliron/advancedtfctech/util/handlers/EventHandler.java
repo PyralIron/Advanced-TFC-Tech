@@ -11,7 +11,9 @@ public class EventHandler {
         event.getWorld();
         event.getPos();
         event.getEntityPlayer();
-        if (event.getWorld().getBlockState(event.getPos()).getBlock() instanceof BlockATTBase) {
+        //System.out.println(event+ " "+event.getSide());
+        //TODO: note that this check for right-click-block is necessary because this function is called with a left-click-block event as well
+        if (event instanceof PlayerInteractEvent.RightClickBlock && event.getWorld().getBlockState(event.getPos()).getBlock() instanceof BlockATTBase) {
             //System.out.println(event.getWorld().getBlockState(event.getPos()).getBlock());
             event.getWorld().getBlockState(event.getPos()).getBlock().onBlockActivated(event.getWorld(),event.getPos(),event.getWorld().getBlockState(event.getPos()),event.getEntityPlayer(),event.getHand(),event.getFace(),event.getPos().getX(),event.getPos().getY(),event.getPos().getZ());
         }

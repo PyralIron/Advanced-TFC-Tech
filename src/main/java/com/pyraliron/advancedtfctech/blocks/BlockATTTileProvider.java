@@ -70,10 +70,10 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
         return super.getDrops(world, pos, state, fortune);
     }
 
+
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-
         TileEntity tile = world.getTileEntity(pos);
         if (tile != null && (!(tile instanceof IEBlockInterfaces.ITileDrop) || !((IEBlockInterfaces.ITileDrop) tile).preventInventoryDrop()) && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null))
         {
@@ -317,6 +317,9 @@ public abstract class BlockATTTileProvider<E extends Enum<E> & BlockATTBase.IBlo
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {
+        /*for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+            System.out.println(ste);
+        }*/
         ItemStack heldItem = player.getHeldItem(hand);
         TileEntity tile = world.getTileEntity(pos);
         //System.out.println("onBlockActivated RUN");

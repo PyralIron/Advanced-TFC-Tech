@@ -60,6 +60,13 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
     protected Map<Integer, Integer> metaResistances = new HashMap<>();
     protected boolean[] metaNotNormalBlock;
     private boolean opaqueCube = false;
+    public String TK;
+    public void setTK(String t) {
+        this.TK = t;
+    }
+    public String getTK() {
+        return "tile."+TK;
+    }
 
     public BlockATTBase(String name, Material material, PropertyEnum<E> mainProperty, Class<? extends ItemBlockATTBase> itemBlock, Object... additionalProperties)
     {

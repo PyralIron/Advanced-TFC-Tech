@@ -1,37 +1,26 @@
 {
   "forge_marker": 1,
-  "defaults":
-  {
-    "transform": "forge:default-block",
-    "custom": { "flip-v": true },
+  "defaults": {
+    "model": "tfc:loom",
     "textures": {
-      "particle": "immersiveengineering:blocks/storage_steel"
+      "texture": "tfc:blocks/wood/planks/birch",
+      "particle": "tfc:blocks/wood/planks/birch"
     }
   },
   "variants":
   {
-    "inventory,type=arc_furnace": [{
-      "model": "immersiveengineering:metal_multiblock/arc_furnace.obj",
-      "transform": {
-        "scale": 0.15625,
-        "rotation": [
-          {
-            "x": 20
-          },
-          {
-            "y": -45
-          }
-        ],
-        "translation": [
-          0,
-          -0.125,
-          0
-        ]
-      }
-    }],
     "type":
     {
-      "arc_furnace": {
+      "powerloom_parent": {
+      },
+      "powerloom": {
+      }
+    },
+    "inventory": {
+      "model": "tfc:loom",
+      "textures": {
+        "texture": "tfc:blocks/wood/planks/birch",
+        "particle": "tfc:blocks/wood/planks/birch"
       }
     },
     "facing":
@@ -51,23 +40,30 @@
     },
     "_0multiblockslave":
     {
-      "false":{},
+      "false":{
+
+      },
       "true":{
-        "model": "immersiveengineering:ie_empty"
+
       }
     },
     "_1dynamicrender":
     {
-      "false":{},
+      "false":{
+
+
+      },
       "true":{
-        "model": "immersiveengineering:metal_multiblock/arc_furnace_electrodes.obj.ie"}
+
+
+      }
     },
     "boolean0":
     {
       "false":{
-        "model": "immersiveengineering:metal_multiblock/arc_furnace.obj"},
-      "true":{
-        "model": "immersiveengineering:metal_multiblock/arc_furnace_mirrored.obj"}
+      },
+      "true": {
+      }
     }
   }
 }

@@ -904,7 +904,6 @@ public class ModelPowerLoom extends ModelBase
             int tickAmplified = Math.round(this.ticks * 500);
             //System.out.println("TICKAMPLIFIED "+tickAmplified+" "+(this.ticks*500)+" "+this.ticks);
             if (tickAmplified == 50 && !this.has_rotated) {
-                this.pirn_rotation = (this.pirn_rotation + 1) % 8;
                 this.has_rotated = true;
             }
             if (tickAmplified == 0 && this.has_rotated) {
@@ -1141,7 +1140,6 @@ public class ModelPowerLoom extends ModelBase
             int tickAmplified = Math.round(this.ticks * 500);
             //System.out.println("TICKAMPLIFIED "+tickAmplified+" "+(this.ticks*500)+" "+this.ticks);
             if (tickAmplified == 50 && !this.has_rotated) {
-                this.pirn_rotation = (this.pirn_rotation + 1) % 8;
                 this.has_rotated = true;
             }
             if (tickAmplified == 0 && this.has_rotated) {

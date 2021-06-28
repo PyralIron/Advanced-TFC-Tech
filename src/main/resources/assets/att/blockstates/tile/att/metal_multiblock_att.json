@@ -1,0 +1,79 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tfc:loom",
+    "textures": {
+      "texture": "tfc:blocks/wood/planks/birch",
+      "particle": "tfc:blocks/wood/planks/birch"
+    }
+  },
+  "variants":
+  {
+    "type":
+    {
+      "powerloom_parent": {
+        "model": "tfc:loom",
+        "textures": {
+          "texture": "tfc:blocks/wood/planks/birch",
+          "particle": "tfc:blocks/wood/planks/birch"
+        }
+      },
+      "powerloom": {
+      },
+      "thresher_parent": {
+      },
+      "thresher": {
+      },
+      "gristmill_parent": {
+      },
+      "gristmill": {
+      },
+      "doughmixer_parent": {
+      },
+      "doughmixer": {
+      }
+    },
+    "facing":
+    {
+      "north": { "transform": {
+        "rotation": {"y": 0 }
+      }},
+      "south": { "transform": {
+        "rotation": {"y": 180 }
+      }},
+      "west": { "transform": {
+        "rotation": {"y": 90 }
+      }},
+      "east": { "transform": {
+        "rotation": {"y": -90 }
+      }}
+    },
+    "_0multiblockslave":
+    {
+      "false":{
+
+      },
+      "true":{
+
+      }
+    },
+    "_1dynamicrender":
+    {
+      "false":{
+
+
+      },
+      "true":{
+
+
+      }
+    },
+    "boolean0":
+    {
+      "false":{
+      },
+      "true": {
+      }
+    }
+  }
+}

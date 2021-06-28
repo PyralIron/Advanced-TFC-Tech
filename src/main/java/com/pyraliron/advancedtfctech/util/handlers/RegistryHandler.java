@@ -1,19 +1,29 @@
 package com.pyraliron.advancedtfctech.util.handlers;
 
+import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.crafting.MetalPressRecipe;
 import blusunrize.immersiveengineering.common.IEContent;
+import com.pyraliron.advancedtfctech.blocks.BlockATTBase;
+import com.pyraliron.advancedtfctech.crafting.GristMillRecipe;
 import com.pyraliron.advancedtfctech.crafting.PowerLoomRecipe;
+import com.pyraliron.advancedtfctech.crafting.ThresherRecipe;
 import com.pyraliron.advancedtfctech.init.ModItems;
 import com.pyraliron.advancedtfctech.util.IHasModel;
 import com.pyraliron.advancedtfctech.util.Reference;
+import net.dries007.tfc.api.registries.TFCRegistries;
+import net.dries007.tfc.api.types.Metal;
 import net.dries007.tfc.objects.items.ItemsTFC;
+import net.dries007.tfc.objects.items.food.ItemFoodTFC;
+import net.dries007.tfc.objects.items.metal.ItemMetal;
+import net.dries007.tfc.util.agriculture.Food;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -28,6 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static com.pyraliron.advancedtfctech.AdvancedTFCTech.registeredATTBlocks;
 import static com.pyraliron.advancedtfctech.AdvancedTFCTech.registeredATTItems;
+import static net.dries007.tfc.api.types.Metal.ItemType.DUST;
 
 @EventBusSubscriber(modid = Reference.MOD_ID)
 public class RegistryHandler {
@@ -40,7 +51,6 @@ public class RegistryHandler {
 		//event.getRegistry().registerAll(ModItems.ITEMS.toArray(new Item[0]));
 		for (Item item : registeredATTItems)
 		{
-
 			if (item.getRegistryName() == null) {
 				event.getRegistry().register(item.setRegistryName(createRegistryName(item.getTranslationKey())));
 			} else {
@@ -52,13 +62,13 @@ public class RegistryHandler {
 	@SubscribeEvent
 	public static void onBlockRegister(RegistryEvent.Register<Block> event) {
 		//event.getRegistry().registerAll(ModBlocks.BLOCKS.toArray(new Block[0]));
-		System.out.println(registeredATTBlocks);
+		//System.out.println(registeredATTBlocks);
 
 		for (Block block : registeredATTBlocks)
 		{
-			System.out.println(block.getTranslationKey());
-			event.getRegistry().register(block.setRegistryName(createRegistryName(block.getTranslationKey())));
-			System.out.println(block.getRegistryName());
+			//System.out.println(block.getTranslationKey());
+			event.getRegistry().register(block.setRegistryName(createRegistryName(((BlockATTBase)block).getTranslationKey())));
+			//System.out.println(block.getRegistryName());
 		}
 	}
 	private static ResourceLocation createRegistryName(String unlocalized) {
@@ -86,6 +96,7 @@ public class RegistryHandler {
 			}
 		}
 		for (Block block : registeredATTBlocks) {
+			//System.out.println(block);
 			if (block instanceof IHasModel) {
 				((IHasModel)block).registerModel();
 			}
@@ -107,11 +118,60 @@ public class RegistryHandler {
 				IngredientStack ingredientHemp = new IngredientStack(new ItemStack(IEContent.itemMaterial,48,4));
 				IngredientStack ingredientString = new IngredientStack(new ItemStack(Items.STRING,48));
 				IngredientStack ingredientWoolYarn = new IngredientStack(new ItemStack(ItemsTFC.WOOL_YARN,48));
+				//IngredientStack ingredientBarleyFlour = new IngredientStack(new ItemStack(ItemsTFC.getAllSimpleItems().get(),4));
+
 				//PowerLoomRecipe.addRecipe(new ItemStack(ItemsTFC.JUTE_FIBER, 4), goldingot, new ItemStack(Blocks.DIRT,1),100, 100);
 				PowerLoomRecipe.addRecipe(new ItemStack(ItemsTFC.BURLAP_CLOTH, 4), ingredientFiberPirn, ingredientFiber, new ItemStack(ModItems.PIRN),500, 256);
 				PowerLoomRecipe.addRecipe(new ItemStack(ItemsTFC.BURLAP_CLOTH, 4), ingredientFiberPirn, ingredientHemp, new ItemStack(ModItems.PIRN),500, 256);
 				PowerLoomRecipe.addRecipe(new ItemStack(ItemsTFC.SILK_CLOTH, 4), ingredientSilkPirn, ingredientString, new ItemStack(ModItems.PIRN),500, 256);
 				PowerLoomRecipe.addRecipe(new ItemStack(ItemsTFC.WOOL_CLOTH, 4), ingredientWoolPirn, ingredientWoolYarn, new ItemStack(ModItems.PIRN),500, 256);
+
+				Food[] raw_grains = {Food.BARLEY,Food.MAIZE,Food.OAT,Food.RICE,Food.RYE,Food.WHEAT};
+				Food[] refined_grains = {Food.BARLEY_GRAIN,Food.MAIZE_GRAIN,Food.OAT_GRAIN,Food.RICE_GRAIN,Food.RYE_GRAIN,Food.WHEAT_GRAIN};
+				Food[] flours = {Food.BARLEY_FLOUR,Food.CORNMEAL_FLOUR,Food.OAT_FLOUR,Food.RICE_FLOUR,Food.RYE_FLOUR,Food.WHEAT_FLOUR};
+				for (int ii = 0; ii < raw_grains.length; ii++) {
+					Food raw_grain = raw_grains[ii];
+					Food refined_grain = refined_grains[ii];
+					Food flour = flours[ii];
+					IngredientStack ingredientGrain = new IngredientStack(new ItemStack(ItemFoodTFC.get(raw_grain),1));
+					ThresherRecipe.addRecipe(new ItemStack(ItemFoodTFC.get(refined_grain),3), ingredientGrain,new ItemStack(ItemsTFC.STRAW,4),100,256);
+
+					IngredientStack ingredientRefinedGrain = new IngredientStack(new ItemStack(ItemFoodTFC.get(refined_grain),1));
+					GristMillRecipe.addRecipe(new ItemStack(ItemFoodTFC.get(flour),3), ingredientRefinedGrain,100,256);
+
+				}
+				/*for (QuernRecipe quernRecipe : TFCRegistries.QUERN.getValuesCollection())
+				{
+					NonNullList<IIngredient<ItemStack>> ingredientlist = quernRecipe.getIngredients();
+					IIngredient iingredient = ingredientlist.get(0);
+					NonNullList foo = iingredient.getValidIngredients();
+					ItemStack input = (ItemStack) foo.get(0);
+
+					if (input.hasCapability(CapabilityFood.CAPABILITY, null)){
+						Ingredient ingredient = Ingredient.fromStacks(input);
+
+
+						ItemStack output = quernRecipe.getOutputs().get(0);
+						Item item = output.getItem();
+
+						//The IE Crusher is just super-efficient
+						int amount = Math.min(output.getCount() * 2 + 2, 9);
+						int meta = output.getMetadata();
+						ItemStack newoutput = new ItemStack(item, amount, meta);
+
+						if (ingredient != null)
+						{
+							ThresherRecipe.addRecipe(newoutput, ingredient,new ItemStack(ItemsTFC.STRAW,4),100,256);
+						}
+					}
+				}*/
+				for (Metal metal : TFCRegistries.METALS.getValuesCollection()) {
+					//Basic ingot to dust
+					if (DUST.hasType(metal)) {
+						Ingredient ingredientIngot = Ingredient.fromStacks(new ItemStack(ItemMetal.get(metal, Metal.ItemType.INGOT)));
+						CrusherRecipe.addRecipe(new ItemStack(ItemMetal.get(metal, DUST), 1), ingredientIngot, 8000);
+					}
+				}
 			}
 		}
 		//System.out.println("MOD LIST"+Loader.instance().getActiveModList().get(0).getModId());

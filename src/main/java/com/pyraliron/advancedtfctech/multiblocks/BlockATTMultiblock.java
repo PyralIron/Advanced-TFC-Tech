@@ -56,10 +56,20 @@ public abstract class BlockATTMultiblock<E extends Enum<E> & BlockIPBase.IBlockE
                 InventoryHelper.dropInventoryItems(world, pos, (IInventory) tile);
         }
         //System.out.println("TRY TO DISASSEMBLE");
-        if (tileEntity instanceof TileEntityMultiblockPart)
+        if (tileEntity instanceof TileEntityMultiblockPart) {
             //System.out.println("DISASSEMBLE");
+            BlockPos masterPos = (tileEntity).getPos().add(-((TileEntityMultiblockPart) tileEntity).offset[0], -((TileEntityMultiblockPart) tileEntity).offset[1], -((TileEntityMultiblockPart) tileEntity).offset[2]);
+            //System.out.println(((TileEntityMultiblockPart) tileEntity).getOrigin()+ " "+masterPos+" "+state);
+            //if (state.getProperties().get("type") == "powerloom_parent") {
+            //}
+            //System.out.println(state.getPropertyKeys());
+            //System.out.println("dis prev");
             ((TileEntityMultiblockPart) tileEntity).disassemble();
-            //System.out.println(((TileEntityMultiblockPart) tileEntity).getOrigin());
+            //System.out.println("dis next");
+
+
+        }
+
         super.breakBlock(world, pos, state);
     }
 

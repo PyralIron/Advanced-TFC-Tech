@@ -84,10 +84,12 @@ public class TileRenderPowerLoom extends TileEntitySpecialRenderer<TileEntityPow
             //System.out.println("model ticks "+model.ticks+" "+ticks+" "+te.activeTicks+" "+te.wasActive+" "+partialTicks);
             if (te.mirrored)
             {
+                modelM.pirn_rotation = Math.round(modelM.ticks * 500) < 50 ? te.pirnRotation : (te.pirnRotation + 1)%8;
                 modelM.render(null, processType, amountInput, amountOutput, amountPirns, primerCount, 0.0625F);
             }
             else
             {
+                model.pirn_rotation = Math.round(model.ticks * 500) < 50 ? te.pirnRotation : (te.pirnRotation + 1)%8;
                 model.render(null, processType, amountInput, amountOutput, amountPirns, primerCount, 0.0625F);
             }
             GlStateManager.popMatrix();

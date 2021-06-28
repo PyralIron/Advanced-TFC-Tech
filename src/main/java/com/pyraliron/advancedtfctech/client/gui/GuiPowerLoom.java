@@ -49,7 +49,7 @@ public class GuiPowerLoom extends GuiIEContainerBase
         for(TileEntityMultiblockMetal.MultiblockProcess process : tile.processQueue)
             if(process instanceof TileEntityMultiblockMetal.MultiblockProcessInMachine)
             {
-                // draws bars next to items ? think so
+
                 float mod = process.processTick/(float)process.maxTicks;
                 int slot = ((TileEntityMultiblockMetal.MultiblockProcessInMachine)process).getInputSlots()[0];
                 int h = (int)Math.max(1, mod*16);

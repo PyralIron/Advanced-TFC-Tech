@@ -2,8 +2,12 @@ package com.pyraliron.advancedtfctech.proxy;
 
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
 import com.pyraliron.advancedtfctech.AdvancedTFCTech;
+import com.pyraliron.advancedtfctech.client.gui.ContainerGristMill;
 import com.pyraliron.advancedtfctech.client.gui.ContainerPowerLoom;
+import com.pyraliron.advancedtfctech.client.gui.ContainerThresher;
+import com.pyraliron.advancedtfctech.te.TileEntityGristMill;
 import com.pyraliron.advancedtfctech.te.TileEntityPowerLoom;
+import com.pyraliron.advancedtfctech.te.TileEntityThresher;
 import com.pyraliron.advancedtfctech.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -25,12 +29,16 @@ public class CommonProxy implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 
 		TileEntity te = world.getTileEntity(new BlockPos(x,y,z));
-		//System.out.println("TILE ENTITY"+te);
+		//System.out.println("TILE ENTITY "+te+" GUI ID "+ID);
 		if(te instanceof IEBlockInterfaces.IGuiTile)
 		{
 			Object gui = null;
 			if(ID== Reference.GUIID_PowerLoom && te instanceof TileEntityPowerLoom)
 				gui = new ContainerPowerLoom(player.inventory, (TileEntityPowerLoom) te);
+			if(ID== Reference.GUIID_Thresher && te instanceof TileEntityThresher)
+				gui = new ContainerThresher(player.inventory, (TileEntityThresher) te);
+			if(ID== Reference.GUIID_GristMill && te instanceof TileEntityGristMill)
+				gui = new ContainerGristMill(player.inventory, (TileEntityGristMill) te);
 			if(gui!=null)
 				((IEBlockInterfaces.IGuiTile)te).onGuiOpened(player, false);
 			return gui;
@@ -40,7 +48,7 @@ public class CommonProxy implements IGuiHandler {
 	}
 	public static <T extends TileEntity & IEBlockInterfaces.IGuiTile> void openGuiForTile(@Nonnull EntityPlayer player, @Nonnull T tile)
 	{
-		//System.out.println("OPENING GUI FOR TILE");
+		//System.out.println("OPENING GUI FOR TILE -- ID: "+tile.getGuiID());
 		player.openGui(AdvancedTFCTech.Instance, tile.getGuiID(), tile.getWorld(), tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ());
 	}
 
