@@ -1,9 +1,14 @@
-item.pirn.name=纬纱管
-item.fiber_winded_pirn.name=麻纤维纬纱管
-item.silk_winded_pirn.name=丝线纬纱管
-item.wool_winded_pirn.name=羊毛纱纬纱管
-desc.immersiveengineering.info.multiblock.att:powerloom=电动织机
+item.att.pirn.name=纬纱管
+item.att.fiber_winded_pirn.name=麻纤维纬纱管
+item.att.silk_winded_pirn.name=丝线纬纱管
+item.att.wool_winded_pirn.name=羊毛纱纬纱管
+
 itemGroup.advancedTFCTech=进阶群峦科技
+
+desc.immersiveengineering.info.multiblock.att:powerloom=电动织机
+desc.immersiveengineering.info.multiblock.att:thresher=谷物脱粒机
+desc.immersiveengineering.info.multiblock.att:gristmill=谷物磨粉机
+desc.immersiveengineering.info.multiblock.att:doughmixer=揉面机
 
 ie.manual.category.att.name=群峦科技
 
@@ -17,9 +22,34 @@ ie.manual.entry.pirn1=
 ie.manual.entry.pirn2=
 ie.manual.entry.pirn3=
 
+ie.manual.entry.thresher.name=谷物脱粒机
+ie.manual.entry.thresher.subtext=脱去它们的外壳
+ie.manual.entry.thresher0=谷物脱粒机使用旋转滚筒和机械动力将谷壳与谷物分离。右击正面的轻型工程块完成多方块结构的构建，此轻型工程块非红石工程块相对的那个轻型工程块！
+ie.manual.entry.thresher1=以下是谷物脱粒机可以执行的操作：
+
+ie.manual.entry.gristMill.name=谷物磨粉机
+ie.manual.entry.gristMill.subtext=面粉是一种粉末
+ie.manual.entry.gristMill0=谷物磨粉机可以把谷物磨成可食用的面粉。右击中心的钢块的正面完成多方块结构的构建，此钢块的正面为红石工程块相对的那个面！
+ie.manual.entry.gristMill1=以下是谷物磨粉机可以执行的操作：
+
 advancement.att:root=进阶群峦科技
 advancement.att:root.desc=用于大规模生产的机器！
 advancement.att:craftPirn=络筒机！
 advancement.att:craftPirn.desc=制作一个纬纱管！
 advancement.att:craftWovenPirn=停止缠绕！
 advancement.att:craftWovenPirn.desc=制作出所有的纬纱管！
+
+jei.category.att.powerloom=电动织机
+jei.category.att.thresher=谷物脱粒机
+jei.category.att.gristmill=谷物磨粉机
+jei.category.att.doughmixer=揉面机
+
+powerloom_parent.name=电动织机
+thresher_parent.name=谷物脱粒机
+gristmill_parent.name=谷物磨粉机
+doughmixer_parent.name=揉面机
+
+powerloom.name=电动织机
+thresher.name=谷物脱粒机
+gristmill.name=谷物磨粉机
+doughmixer.name=揉面机

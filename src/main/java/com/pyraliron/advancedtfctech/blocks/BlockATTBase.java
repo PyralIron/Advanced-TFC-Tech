@@ -60,13 +60,6 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
     protected Map<Integer, Integer> metaResistances = new HashMap<>();
     protected boolean[] metaNotNormalBlock;
     private boolean opaqueCube = false;
-    public String TK;
-    public void setTK(String t) {
-        this.TK = t;
-    }
-    public String getTK() {
-        return "tile."+TK;
-    }
 
     public BlockATTBase(String name, Material material, PropertyEnum<E> mainProperty, Class<? extends ItemBlockATTBase> itemBlock, Object... additionalProperties)
     {
@@ -123,10 +116,10 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
     }
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        System.out.println("IS SHIFT KEY DOWN "+GuiScreen.isShiftKeyDown()+" "+!playerIn.getHeldItem(hand).isEmpty());
+        //System.out.println("IS SHIFT KEY DOWN "+GuiScreen.isShiftKeyDown()+" "+!playerIn.getHeldItem(hand).isEmpty());
         if (GuiScreen.isShiftKeyDown() && !playerIn.getHeldItem(hand).isEmpty()) {
             TileEntity te = worldIn.getTileEntity(pos);
-            System.out.println("TILE ENTITY "+te);
+            //System.out.println("TILE ENTITY "+te);
             if (te instanceof TileEntityPowerLoom) {
                 TileEntityPowerLoom tem = ((TileEntityPowerLoom) te).master();
                 ItemStack shiftCount = ItemStack.EMPTY;
@@ -140,7 +133,7 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
 
 
                 }
-                System.out.println("SHIFT COUNT "+shiftCount);
+                //System.out.println("SHIFT COUNT "+shiftCount);
                 if (!shiftCount.isEmpty()) {
                     playerIn.getHeldItem(hand).shrink(1);
                     tem.inputHandler.insertItem(j,new ItemStack(playerIn.getHeldItem(hand).getItem()),false);
@@ -605,42 +598,4 @@ public class BlockATTBase<E extends Enum<E> & BlockATTBase.IBlockEnum> extends B
         boolean listForCreative();
     }
 
-    public abstract static class IPLadderBlock<F extends Enum<F> & IBlockEnum & BlockIPBase.IBlockEnum> extends BlockIPBase<F>
-    {
-        public IPLadderBlock(String name, Material material, PropertyEnum<F> mainProperty,
-                             Class<? extends ItemBlockIPBase> itemBlock, Object... additionalProperties)
-        {
-            super(name, material, mainProperty, itemBlock, additionalProperties);
-        }
-
-        @Override
-        public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
-        {
-            super.onEntityCollision(worldIn, pos, state, entityIn);
-            if (entityIn instanceof EntityLivingBase && !((EntityLivingBase) entityIn).isOnLadder() && isLadder(state, worldIn, pos, (EntityLivingBase) entityIn))
-            {
-                float f5 = 0.15F;
-                if (entityIn.motionX < -f5)
-                    entityIn.motionX = -f5;
-                if (entityIn.motionX > f5)
-                    entityIn.motionX = f5;
-                if (entityIn.motionZ < -f5)
-                    entityIn.motionZ = -f5;
-                if (entityIn.motionZ > f5)
-                    entityIn.motionZ = f5;
-
-                entityIn.fallDistance = 0.0F;
-                if (entityIn.motionY < -0.15D)
-                    entityIn.motionY = -0.15D;
-
-                if (entityIn.motionY < 0 && entityIn instanceof EntityPlayer && entityIn.isSneaking())
-                {
-                    entityIn.motionY = .05;
-                    return;
-                }
-                if (entityIn.collidedHorizontally)
-                    entityIn.motionY = .2;
-            }
-        }
-    }
 }

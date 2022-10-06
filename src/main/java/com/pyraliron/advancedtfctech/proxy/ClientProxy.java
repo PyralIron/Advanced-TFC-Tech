@@ -14,6 +14,7 @@ import com.pyraliron.advancedtfctech.client.render.TileRenderThresher;
 import com.pyraliron.advancedtfctech.crafting.GristMillRecipe;
 import com.pyraliron.advancedtfctech.crafting.PowerLoomRecipe;
 import com.pyraliron.advancedtfctech.crafting.ThresherRecipe;
+import com.pyraliron.advancedtfctech.init.ModBlocks;
 import com.pyraliron.advancedtfctech.init.ModItems;
 import com.pyraliron.advancedtfctech.multiblocks.MultiblockGristMill;
 import com.pyraliron.advancedtfctech.multiblocks.MultiblockPowerLoom;
@@ -31,6 +32,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -70,6 +72,8 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent evt)
 	{
+		for (ItemBlock item : ModBlocks.getAllInventoryItemBlocks())
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		for(Block block : registeredATTBlocks)
 		{
 			final ResourceLocation loc = Block.REGISTRY.getNameForObject(block);

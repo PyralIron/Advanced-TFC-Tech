@@ -2,7 +2,6 @@ package com.pyraliron.advancedtfctech.te;
 
 import blusunrize.immersiveengineering.api.ApiUtils;
 import blusunrize.immersiveengineering.api.crafting.IMultiblockRecipe;
-import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.common.Config;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockMetal;
@@ -12,8 +11,6 @@ import com.pyraliron.advancedtfctech.crafting.DoughMixerRecipe;
 import com.pyraliron.advancedtfctech.multiblocks.MultiblockDoughMixer;
 import com.pyraliron.advancedtfctech.util.Reference;
 import com.pyraliron.advancedtfctech.util.inventory.ATTInventoryHandler;
-import net.dries007.tfc.api.capability.food.CapabilityFood;
-import net.dries007.tfc.api.capability.food.IFood;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -42,13 +39,13 @@ import java.util.stream.IntStream;
 import static java.lang.Math.min;
 
 public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDoughMixer, IMultiblockRecipe> implements IEBlockInterfaces.IAdvancedSelectionBounds, IEBlockInterfaces.IAdvancedCollisionBounds,IEBlockInterfaces.IGuiTile {
-    int fakepos;
     /* uh yeah just for clientside rendering shit */
     public int tick;
     public int maxTicks;
     public boolean isTicking;
 
-    final int[] capabilityList = {2,30};
+    final int[] capabilityList = {};
+    public FluidTank tank = new FluidTank(12000);
     public NonNullList<ItemStack> inventory = NonNullList.withSize(12, ItemStack.EMPTY);
 
     public static class TileEntityDoughMixerParent extends TileEntityDoughMixer
@@ -77,13 +74,12 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
 
     public TileEntityDoughMixer()
     {
-        super(MultiblockDoughMixer.instance, new int[]{3, 3, 4}, 16000, true);
+        super(MultiblockDoughMixer.instance, new int[]{3, 2, 3}, 16000, true);
 
     }
     public int[] getStructureDimensions() {
         return this.structureDimensions;
     }
-    public void setPos(long lng) {/*this.pos.fromLong(lng);*/this.fakepos = (int)lng;}
 
     public boolean wasActive = false;
     public int activeTicks = 0;
@@ -168,6 +164,7 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
         if (!this.wasActive && lastActive) {
             ++this.activeTicks;
         }
+        tank.readFromNBT(nbt.getCompoundTag("tank"));
         //if(!descPacket)
         inventory = Utils.readInventory(nbt.getTagList("inventory", 10), 12);
         //System.out.println(inventory);
@@ -186,6 +183,8 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
 
 
         nbt.setTag("inventory", Utils.writeInventory(inventory));
+        NBTTagCompound tankTag = tank.writeToNBT(new NBTTagCompound());
+        nbt.setTag("tank", tankTag);
     }
 
     @Override
@@ -309,7 +308,7 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
                     ////					stack.stackSize-=usedInvSlots[slot];
                     //				}
                     if (!stack.isEmpty() && stack.getCount() > 0) {
-                        DoughMixerRecipe recipe = DoughMixerRecipe.findRecipe(stack);
+                        DoughMixerRecipe recipe = DoughMixerRecipe.findRecipe(stack, tank.getFluid());
 
                         if (recipe != null) {
                             TileEntityDoughMixer.MultiblockProcessDoughMixer process = new TileEntityDoughMixer.MultiblockProcessDoughMixer(recipe, slot);
@@ -399,13 +398,13 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
     @Override
     public int[] getEnergyPos()
     {
-        return new int[]{16};
+        return new int[]{13};
     }
 
     @Override
     public int[] getRedstonePos()
     {
-        return new int[]{23};
+        return new int[]{7};
     }
 
     @Override
@@ -603,7 +602,7 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
     @Override
     public IFluidTank[] getInternalTanks()
     {
-        return null;
+        return new IFluidTank[]{tank};
     }
 
     @Override
@@ -635,20 +634,9 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
 
         if (master != null)
         {
-            if (pos == 9 && (side == null || side == facing.rotateY() || side == facing.getOpposite().rotateY()))
+            if (pos == 4 && (side == facing.rotateY().rotateY()))
             {
-                return new FluidTank[0];
-                //return new FluidTank[]{fakeTank};
-            }
-            else if (pos == 11 && (side == null || side == facing.rotateY() || side == facing.getOpposite().rotateY()))
-            {
-                return new FluidTank[0];
-                //return new FluidTank[]{fakeTank};
-            }
-            else if (pos == 16 /*&& IPConfig.Extraction.req_pipes*/ && (side == null || side == EnumFacing.DOWN))
-            {
-                return new FluidTank[0];
-                //return new FluidTank[]{fakeTank};
+                return new FluidTank[]{tank};
             }
         }
 
@@ -658,12 +646,14 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
     @Override
     protected boolean canFillTankFrom(int iTank, EnumFacing side, FluidStack resource)
     {
+        System.out.println("filling tank from "+side+" "+iTank+" "+resource);
         return false;
     }
 
     @Override
     protected boolean canDrainTankFrom(int iTank, EnumFacing side)
     {
+        System.out.println("draining tank from "+side+" "+iTank);
         return false;
     }
 
@@ -716,74 +706,7 @@ public class TileEntityDoughMixer extends TileEntityMultiblockMetal<TileEntityDo
         @Override
         protected void processFinish(TileEntityMultiblockMetal te)
         {
-            //System.out.println("PROCESS FINISH");
-            List<ItemStack> outputs = getRecipeItemOutputs(te);
-            if(outputs!=null && !outputs.isEmpty())
-            {
-                int[] outputSlots = te.getOutputSlots();
-                for(ItemStack output : outputs)
-                    if(!output.isEmpty())
-                        if(outputSlots==null || te.getInventory()==null)
-                            te.doProcessOutput(output.copy());
-                        else
-                        {
-                            for(int iOutputSlot:outputSlots)
-                            {
-                                ItemStack s = te.getInventory().get(iOutputSlot);
-                                ItemStack src = te.getInventory().get(this.inputSlots[0]);
-                                ItemStack out = output.copy();
-                                if(s.isEmpty())
-                                {
-                                    if (out.hasCapability(CapabilityFood.CAPABILITY,null) && src.hasCapability(CapabilityFood.CAPABILITY,null)) {
-                                        IFood outcap = out.getCapability(CapabilityFood.CAPABILITY,null);
-                                        IFood srccap = src.getCapability(CapabilityFood.CAPABILITY,null);
-                                        outcap.setCreationDate(srccap.getCreationDate());
-                                    }
-                                    te.getInventory().set(iOutputSlot, out);
-                                    break;
-                                }
-                                if (s.getCount() + output.getCount() <= te.getSlotLimit(iOutputSlot) &&
-                                        s.hasCapability(CapabilityFood.CAPABILITY,null) && src.hasCapability(CapabilityFood.CAPABILITY,null)
-                                        && out.hasCapability(CapabilityFood.CAPABILITY,null) && CapabilityFood.areStacksStackableExceptCreationDate(s,out)) {
-                                    IFood destcap = s.getCapability(CapabilityFood.CAPABILITY,null);
-                                    IFood srccap = src.getCapability(CapabilityFood.CAPABILITY,null);
-                                    if (Math.abs(destcap.getCreationDate() - srccap.getCreationDate()) < 2400) {
-                                        te.getInventory().get(iOutputSlot).grow(output.getCount());
-                                        break;
-                                    }
-                                }
-                                /*if(ItemHandlerHelper.canItemStacksStack(s, output) && s.getCount() + output.getCount() <= te.getSlotLimit(iOutputSlot))
-                                {
-                                    te.getInventory().get(iOutputSlot).grow(output.getCount());
-                                    break;
-                                }*/
-                            }
-                        }
-            }
-            NonNullList<ItemStack> inv = te.getInventory();
-            List<IngredientStack> itemInputList = this.getRecipeItemInputs(te);
-            if(inv != null && this.inputSlots != null && itemInputList != null)
-            {
-                Iterator<IngredientStack> iterator = new ArrayList(itemInputList).iterator();
-                while(iterator.hasNext())
-                {
-                    IngredientStack ingr = iterator.next();
-                    int ingrSize = ingr.inputSize;
-                    for(int slot : this.inputSlots)
-                        if(!inv.get(slot).isEmpty() && ingr.matchesItemStackIgnoringSize(inv.get(slot)))
-                        {
-                            int taken = min(inv.get(slot).getCount(), ingrSize);
-                            inv.get(slot).shrink(taken);
-                            if(inv.get(slot).getCount() <= 0)
-                                inv.set(slot, ItemStack.EMPTY);
-                            if((ingrSize -= taken) <= 0)
-                                break;
-                        }
-                }
-            }
-            te.onProcessFinish(this);
-            this.clearProcess = true;
-            //TODO: Figure out what this event means
+            super.processFinish(te);
             te.getWorld().addBlockEvent(te.getPos(), te.getBlockType(), 0,40);
         }
     }

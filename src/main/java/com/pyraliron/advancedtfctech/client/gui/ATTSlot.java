@@ -1,5 +1,6 @@
 package com.pyraliron.advancedtfctech.client.gui;
 
+import com.pyraliron.advancedtfctech.crafting.DoughMixerRecipe;
 import com.pyraliron.advancedtfctech.crafting.GristMillRecipe;
 import com.pyraliron.advancedtfctech.crafting.PowerLoomRecipe;
 import com.pyraliron.advancedtfctech.crafting.ThresherRecipe;
@@ -81,6 +82,18 @@ public abstract class ATTSlot extends Slot {
         public boolean isItemValid(ItemStack itemStack)
         {
             return !itemStack.isEmpty() && GristMillRecipe.isValidRecipeInput(itemStack);
+        }
+    }
+    public static class DoughMixerInput extends ATTSlot
+    {
+        public DoughMixerInput(Container container, IInventory inv, int id, int x, int y)
+        {
+            super(container, inv, id, x, y);
+        }
+        @Override
+        public boolean isItemValid(ItemStack itemStack)
+        {
+            return !itemStack.isEmpty() && DoughMixerRecipe.isValidRecipeInput(itemStack);
         }
     }
     public static class WinderInput extends ATTSlot

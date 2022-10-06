@@ -1,7 +1,7 @@
-item.pirn.name=Pirn
-item.fiber_winded_pirn.name=Fiber-Winded Pirn
-item.silk_winded_pirn.name=Silk-Winded Pirn
-item.wool_winded_pirn.name=Wool-Winded Pirn
+item.att.pirn.name=Pirn
+item.att.fiber_winded_pirn.name=Fiber-Winded Pirn
+item.att.silk_winded_pirn.name=Silk-Winded Pirn
+item.att.wool_winded_pirn.name=Wool-Winded Pirn
 
 itemGroup.advancedTFCTech=Advanced TFC Tech
 
@@ -24,12 +24,12 @@ ie.manual.entry.pirn3=
 
 ie.manual.entry.thresher.name=Thresher
 ie.manual.entry.thresher.subtext=Shed Your Husk
-ie.manual.entry.thresher0=A thresher separates chaff from grain using rotating cylinders and mechanical power.
+ie.manual.entry.thresher0=A thresher separates chaff from grain using rotating cylinders and mechanical power. Right click on the light engineering block that is not directly opposite the redstone engineering block to form.
 ie.manual.entry.thresher1=Below are the operations the Thresher can perform:
 
 ie.manual.entry.gristMill.name=Grist Mill
 ie.manual.entry.gristMill.subtext=Flour Power
-ie.manual.entry.gristMill0=A grist mill grains raw grain into more edible flour.
+ie.manual.entry.gristMill0=A grist mill grains raw grain into more edible flour. Right click on the steel block in the middle from the side opposite of the redstone engineering block to form.
 ie.manual.entry.gristMill1=Below are the operations the Grist Mill can perform:
 
 advancement.att:root=Advanced TFC Tech
@@ -50,3 +50,10 @@ thresher_parent.name=Thresher
 gristmill_parent.name=Grist Mill
 doughmixer_parent.name=Dough Mixer
 
+powerloom.name=Power Loom
+thresher.name=Thresher
+gristmill.name=Grist Mill
+doughmixer.name=Dough Mixer
+
+tile.att.firepit.name=Fire Pit
+tile.att.charcoalforge.name=Charcoal Forge

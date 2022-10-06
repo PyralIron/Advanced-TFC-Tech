@@ -6,11 +6,9 @@ import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-import static com.pyraliron.advancedtfctech.init.ModItems.tabAdvancedTFCTech;
-
 public class ItemWoolWindedPirn extends ItemBase {
     public ItemWoolWindedPirn() {
-        super("wool_winded_pirn",tabAdvancedTFCTech);
+        super();
     }
 
     @Nonnull

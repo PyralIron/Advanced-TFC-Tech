@@ -27,6 +27,8 @@ public class JEIPluginATT implements IModPlugin {
     public static final String THRESHER_ID = MOD_ID + ".thresher";
     public static final String GRIST_MILL_ID = MOD_ID + ".gristmill";
 
+//    public static final String HEAT_UID = MOD_ID + ".heat";
+
     private static IModRegistry REGISTRY;
 
     @Override
@@ -52,6 +54,8 @@ public class JEIPluginATT implements IModPlugin {
         List<GristMillRecipeWrapper> gristmillList = (GristMillRecipe.recipeList).stream().map(GristMillRecipeWrapper::new).collect(Collectors.toList());
         registry.addRecipes(gristmillList, GRIST_MILL_ID);
         registry.addRecipeCatalyst(new ItemStack(AdvancedTFCTech.blockMetalMultiblock,1,5), GRIST_MILL_ID);
+
+
         // registry.addIngredientInfo(new ItemStack(ItemsFL.FRUIT_LEAF, 1), VanillaTypes.ITEM, new TextComponentTranslation("jei.tooltip.firmalife.fruit_leaf").getFormattedText());
 
     }

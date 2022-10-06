@@ -61,7 +61,6 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
     public ContainerPowerLoom container;
     public NonNullList<ItemStack> inventory = NonNullList.withSize(17, ItemStack.EMPTY);
 
-    AxisAlignedBB aabb;
 
     public static class TileEntityPowerLoomParent extends TileEntityPowerLoom
     {
@@ -71,20 +70,18 @@ public class TileEntityPowerLoom extends TileEntityMultiblockMetal<TileEntityPow
         {
             //System.out.println(this.getPos());
             BlockPos nullPos = this.getPos();
-            if (aabb != null)
-                return aabb;
+
             //System.out.println(getPos());
             if (facing == EnumFacing.NORTH) {
-                aabb = new AxisAlignedBB(getPos().getX()-2,getPos().getY()-2,getPos().getZ()-5,getPos().getX()+2,getPos().getY()+2,getPos().getZ()+1);
+                return new AxisAlignedBB(getPos().getX()-2,getPos().getY()-2,getPos().getZ()-5,getPos().getX()+2,getPos().getY()+2,getPos().getZ()+1);
             } else if (facing == EnumFacing.SOUTH) {
-                aabb = new AxisAlignedBB(getPos().getX()-2,getPos().getY()-2,getPos().getZ()-1,getPos().getX()+2,getPos().getY()+2,getPos().getZ()+5);
+                return new AxisAlignedBB(getPos().getX()-2,getPos().getY()-2,getPos().getZ()-1,getPos().getX()+2,getPos().getY()+2,getPos().getZ()+5);
             } else if (facing == EnumFacing.WEST) {
-                aabb = new AxisAlignedBB(getPos().getX()-5,getPos().getY()-2,getPos().getZ()-2,getPos().getX()+1,getPos().getY()+2,getPos().getZ()+2);
+                return new AxisAlignedBB(getPos().getX()-5,getPos().getY()-2,getPos().getZ()-2,getPos().getX()+1,getPos().getY()+2,getPos().getZ()+2);
             } else {
-                aabb = new AxisAlignedBB(getPos().getX()-1,getPos().getY()-2,getPos().getZ()-2,getPos().getX()+5,getPos().getY()+2,getPos().getZ()+2);
+                return new AxisAlignedBB(getPos().getX()-1,getPos().getY()-2,getPos().getZ()-2,getPos().getX()+5,getPos().getY()+2,getPos().getZ()+2);
             }
             //System.out.println(facing+" "+aabb);
-            return aabb;
             //return new AxisAlignedBB(nullPos.offset(facing, -2).offset(mirrored ? facing.rotateYCCW() : facing.rotateY(), -1).down(1), nullPos.offset(facing, 5).offset(mirrored ? facing.rotateYCCW() : facing.rotateY(), 2).up(3));
         }
 

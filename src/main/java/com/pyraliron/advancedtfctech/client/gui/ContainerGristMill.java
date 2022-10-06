@@ -15,9 +15,9 @@ public class ContainerGristMill extends ContainerIEBase<TileEntityGristMill> {
         this.tile=tile;
         //tile.container = this;
         for(int i=0; i<6; i++)
-            this.addSlotToContainer(new ATTSlot.GristMillInput(this, this.inv, i, 60+18*(i%3),16+18*(i/3)));
+            this.addSlotToContainer(new ATTSlot.GristMillInput(this, this.inv, i, 62+18*(i%3),16+18*(i/3)));
         for(int i=0; i<6; i++)
-            this.addSlotToContainer(new ATTSlot.Output(this, this.inv, i+6, 60+18*(i%3),74+18*(i/3)));
+            this.addSlotToContainer(new ATTSlot.Output(this, this.inv, i+6, 62+18*(i%3),74+18*(i/3)));
 
         slotCount=12;
 

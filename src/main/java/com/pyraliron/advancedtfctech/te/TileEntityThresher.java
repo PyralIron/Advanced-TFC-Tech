@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static java.lang.Math.min;
+import static net.dries007.tfc.api.capability.food.CapabilityFood.updateFoodFromPrevious;
 
 public class TileEntityThresher extends TileEntityMultiblockMetal<TileEntityThresher, IMultiblockRecipe> implements IEBlockInterfaces.IAdvancedSelectionBounds, IEBlockInterfaces.IAdvancedCollisionBounds,IEBlockInterfaces.IGuiTile {
     int fakepos;
@@ -370,7 +371,7 @@ public class TileEntityThresher extends TileEntityMultiblockMetal<TileEntityThre
                     //					stack = stack.copy();
                     ////					stack.stackSize-=usedInvSlots[slot];
                     //				}
-                    if (!stack.isEmpty() && stack.getCount() > 0) {
+                    if (!stack.isEmpty() && stack.getCount() > 0 && (!stack.hasCapability(CapabilityFood.CAPABILITY,null) || !stack.getCapability(CapabilityFood.CAPABILITY,null).isRotten())) {
                         ThresherRecipe recipe = ThresherRecipe.findRecipe(stack);
 
                         if (recipe != null) {
@@ -996,22 +997,31 @@ public class TileEntityThresher extends TileEntityMultiblockMetal<TileEntityThre
                                 if(s.isEmpty())
                                 {
                                     if (out.hasCapability(CapabilityFood.CAPABILITY,null) && src.hasCapability(CapabilityFood.CAPABILITY,null)) {
-                                        IFood outcap = out.getCapability(CapabilityFood.CAPABILITY,null);
-                                        IFood srccap = src.getCapability(CapabilityFood.CAPABILITY,null);
-                                        outcap.setCreationDate(srccap.getCreationDate());
+                                        //IFood outcap = out.getCapability(CapabilityFood.CAPABILITY,null);
+                                        //IFood srccap = src.getCapability(CapabilityFood.CAPABILITY,null);
+                                        //outcap.setCreationDate(srccap.getCreationDate());
+                                        updateFoodFromPrevious(src,out);
                                     }
                                     te.getInventory().set(iOutputSlot, out);
                                     break;
                                 }
-                                if (s.getCount() + output.getCount() <= te.getSlotLimit(iOutputSlot) &&
+                                //System.out.println((s.getCount() + output.getCount())+" "+te.getSlotLimit(iOutputSlot)+" "+te.getInventory().get(iOutputSlot).getItem()+" "+output.getItem());
+                                if (s.getCount() + output.getCount() <= te.getSlotLimit(iOutputSlot) && te.getInventory().get(iOutputSlot).getItem() == output.getItem() &&
                                         s.hasCapability(CapabilityFood.CAPABILITY,null) && src.hasCapability(CapabilityFood.CAPABILITY,null)
                                         && out.hasCapability(CapabilityFood.CAPABILITY,null) && CapabilityFood.areStacksStackableExceptCreationDate(s,out)) {
+                                    updateFoodFromPrevious(src,out);
                                     IFood destcap = s.getCapability(CapabilityFood.CAPABILITY,null);
-                                    IFood srccap = src.getCapability(CapabilityFood.CAPABILITY,null);
-                                    if (Math.abs(destcap.getCreationDate() - srccap.getCreationDate()) < 2400) {
+                                    //IFood srccap = src.getCapability(CapabilityFood.CAPABILITY,null);
+                                    IFood outcap = out.getCapability(CapabilityFood.CAPABILITY,null);
+
+                                    //System.out.println(destcap.getCreationDate()+" "+outcap.getCreationDate());
+                                    if (Math.abs(destcap.getCreationDate() - outcap.getCreationDate()) < 24000) {
                                         te.getInventory().get(iOutputSlot).grow(output.getCount());
                                         break;
                                     }
+                                } else if (s.getCount() + output.getCount() <= te.getSlotLimit(iOutputSlot) && te.getInventory().get(iOutputSlot).getItem() == output.getItem()) {
+                                    te.getInventory().get(iOutputSlot).grow(output.getCount());
+                                    break;
                                 }
                                 /*if(ItemHandlerHelper.canItemStacksStack(s, output) && s.getCount() + output.getCount() <= te.getSlotLimit(iOutputSlot))
                                 {

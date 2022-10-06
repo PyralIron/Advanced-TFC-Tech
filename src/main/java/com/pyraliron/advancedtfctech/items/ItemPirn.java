@@ -6,11 +6,9 @@ import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-import static com.pyraliron.advancedtfctech.init.ModItems.tabAdvancedTFCTech;
-
 public class ItemPirn extends ItemBase {
     public ItemPirn() {
-        super("pirn",tabAdvancedTFCTech);
+        super();
     }
 
     @Nonnull

@@ -8,6 +8,7 @@ import com.pyraliron.advancedtfctech.client.gui.MultiblockRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
@@ -19,15 +20,17 @@ public class DoughMixerRecipe extends MultiblockRecipe {
     public static float timeModifier = 1;
 
     public final IngredientStack input;
+    public final IngredientStack fluidInput;
     public final String oreInputString;
     public final ItemStack output;
     public String specialRecipeType;
     public static ArrayList<String> specialRecipeTypes = new ArrayList<String>();
     public static ArrayList<DoughMixerRecipe> recipeList = new ArrayList<DoughMixerRecipe>();
 
-    public DoughMixerRecipe(ItemStack output, Object input, int time, int energyPerTick) {
+    public DoughMixerRecipe(ItemStack output, Object input, FluidStack inputFluid, int time, int energyPerTick) {
         this.output = output;
         this.input = ApiUtils.createIngredientStack(input);
+        this.fluidInput = new IngredientStack(inputFluid);
         //System.out.println(this.input);
 
 
@@ -39,7 +42,7 @@ public class DoughMixerRecipe extends MultiblockRecipe {
 
 
         this.inputList = Lists.newArrayList(this.input);
-
+        this.fluidInputList = Lists.newArrayList(inputFluid);
         this.outputList = ListUtils.fromItem(this.output);
     }
 
@@ -61,13 +64,12 @@ public class DoughMixerRecipe extends MultiblockRecipe {
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         nbt.setTag("input", input.writeToNBT(new NBTTagCompound()));
-
+        //fluidInput.getValidIngredients().get(0).writeToNBT()
         return nbt;
     }
 
     public static DoughMixerRecipe loadFromNBT(NBTTagCompound nbt) {
         IngredientStack input = IngredientStack.readFromNBT(nbt.getCompoundTag("input"));
-
         for (DoughMixerRecipe recipe : recipeList)
             if (recipe.input.equals(input)) {
                 return recipe;
@@ -81,8 +83,8 @@ public class DoughMixerRecipe extends MultiblockRecipe {
         return outputs;
     }
 
-    public boolean matches(ItemStack input) {
-        return this.input != null && this.input.matches(input);
+    public boolean matches(ItemStack input, FluidStack inputFluid) {
+        return this.input != null && this.input.matches(input) && this.fluidInput.matches(inputFluid);
     }
 
     public boolean isValidInput(ItemStack stack) { return this.input != null && this.input.matches(stack); }
@@ -97,8 +99,8 @@ public class DoughMixerRecipe extends MultiblockRecipe {
         return this;
     }
 
-    public static DoughMixerRecipe addRecipe(ItemStack output, Object input, int time, int energyPerTick) {
-        DoughMixerRecipe recipe = new DoughMixerRecipe(output, input, time, energyPerTick);
+    public static DoughMixerRecipe addRecipe(ItemStack output, Object input, FluidStack inputFluid, int time, int energyPerTick) {
+        DoughMixerRecipe recipe = new DoughMixerRecipe(output, input, inputFluid, time, energyPerTick);
 
         if (recipe.input != null)
 
@@ -106,9 +108,9 @@ public class DoughMixerRecipe extends MultiblockRecipe {
         return recipe;
     }
 
-    public static DoughMixerRecipe findRecipe(ItemStack input) {
+    public static DoughMixerRecipe findRecipe(ItemStack input, FluidStack inputFluid) {
         for (DoughMixerRecipe recipe : recipeList)
-            if (recipe != null && recipe.matches(input))
+            if (recipe != null && recipe.matches(input, inputFluid))
                 return recipe;
         return null;
     }

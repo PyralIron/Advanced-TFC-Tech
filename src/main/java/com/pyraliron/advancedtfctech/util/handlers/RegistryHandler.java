@@ -11,14 +11,15 @@ import com.pyraliron.advancedtfctech.crafting.ThresherRecipe;
 import com.pyraliron.advancedtfctech.init.ModItems;
 import com.pyraliron.advancedtfctech.util.IHasModel;
 import com.pyraliron.advancedtfctech.util.Reference;
+import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
 import net.dries007.tfc.api.registries.TFCRegistries;
 import net.dries007.tfc.api.types.Metal;
 import net.dries007.tfc.objects.items.ItemsTFC;
+import net.dries007.tfc.objects.items.ceramics.ItemUnfiredMold;
 import net.dries007.tfc.objects.items.food.ItemFoodTFC;
 import net.dries007.tfc.objects.items.metal.ItemMetal;
 import net.dries007.tfc.util.agriculture.Food;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -38,7 +39,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static com.pyraliron.advancedtfctech.AdvancedTFCTech.registeredATTBlocks;
 import static com.pyraliron.advancedtfctech.AdvancedTFCTech.registeredATTItems;
+import static net.dries007.tfc.api.recipes.knapping.KnappingType.CLAY;
 import static net.dries007.tfc.api.types.Metal.ItemType.DUST;
+import static net.dries007.tfc.api.types.Metal.ItemType.INGOT;
+import static net.dries007.tfc.api.types.Metal.STEEL;
 
 @EventBusSubscriber(modid = Reference.MOD_ID)
 public class RegistryHandler {
@@ -54,7 +58,7 @@ public class RegistryHandler {
 			if (item.getRegistryName() == null) {
 				event.getRegistry().register(item.setRegistryName(createRegistryName(item.getTranslationKey())));
 			} else {
-				event.getRegistry().register(item);
+//				event.getRegistry().register(item);
 			}
 		}
 	}
@@ -105,8 +109,6 @@ public class RegistryHandler {
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
 	{
-		IngredientStack goldingot = new IngredientStack(new ItemStack(Items.GOLD_INGOT,1));
-		MetalPressRecipe.addRecipe(new ItemStack(Blocks.BONE_BLOCK, 1), goldingot, new ItemStack(IEContent.blockStorage, 1, 8), 2400);
 
 		for (ModContainer i : Loader.instance().getActiveModList()) {
 			//System.out.println("MOD "+ i.getModId());
@@ -140,6 +142,8 @@ public class RegistryHandler {
 					GristMillRecipe.addRecipe(new ItemStack(ItemFoodTFC.get(flour),3), ingredientRefinedGrain,100,256);
 
 				}
+				IngredientStack ingredientSugarcane = new IngredientStack(new ItemStack(ItemFoodTFC.get(Food.SUGARCANE),1));
+				GristMillRecipe.addRecipe(new ItemStack(Items.SUGAR,2), ingredientSugarcane,100,256);
 				/*for (QuernRecipe quernRecipe : TFCRegistries.QUERN.getValuesCollection())
 				{
 					NonNullList<IIngredient<ItemStack>> ingredientlist = quernRecipe.getIngredients();
@@ -165,10 +169,19 @@ public class RegistryHandler {
 						}
 					}
 				}*/
+				for (KnappingRecipe knappingRecipe : TFCRegistries.KNAPPING.getValuesCollection()) {
+					if (knappingRecipe.getType() == CLAY && (knappingRecipe.getOutput(ItemStack.EMPTY)).getItem() instanceof ItemUnfiredMold && ((ItemUnfiredMold)(knappingRecipe.getOutput(ItemStack.EMPTY)).getItem()).type.hasMold(null)) {
+						ItemStack mold = knappingRecipe.getOutput(ItemStack.EMPTY);
+						Metal.ItemType type = ((ItemUnfiredMold)(knappingRecipe.getOutput(ItemStack.EMPTY)).getItem()).type;
+						ItemStack tool = new ItemStack(ItemMetal.get(STEEL,type),1);
+						MetalPressRecipe.addRecipe(mold, new IngredientStack("clay",5), tool, 2400);
+					}
+				}
+
 				for (Metal metal : TFCRegistries.METALS.getValuesCollection()) {
 					//Basic ingot to dust
 					if (DUST.hasType(metal)) {
-						Ingredient ingredientIngot = Ingredient.fromStacks(new ItemStack(ItemMetal.get(metal, Metal.ItemType.INGOT)));
+						Ingredient ingredientIngot = Ingredient.fromStacks(new ItemStack(ItemMetal.get(metal, INGOT)));
 						CrusherRecipe.addRecipe(new ItemStack(ItemMetal.get(metal, DUST), 1), ingredientIngot, 8000);
 					}
 				}

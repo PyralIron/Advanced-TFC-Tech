@@ -3,11 +3,9 @@ package com.pyraliron.advancedtfctech;
 import blusunrize.immersiveengineering.api.MultiblockHandler;
 import com.pyraliron.advancedtfctech.blocks.BlockATTBase;
 import com.pyraliron.advancedtfctech.init.ModItems;
-import com.pyraliron.advancedtfctech.multiblocks.BlockATTMetalMultiblocks;
-import com.pyraliron.advancedtfctech.multiblocks.MultiblockGristMill;
-import com.pyraliron.advancedtfctech.multiblocks.MultiblockPowerLoom;
-import com.pyraliron.advancedtfctech.multiblocks.MultiblockThresher;
+import com.pyraliron.advancedtfctech.multiblocks.*;
 import com.pyraliron.advancedtfctech.proxy.CommonProxy;
+import com.pyraliron.advancedtfctech.te.TileEntityDoughMixer;
 import com.pyraliron.advancedtfctech.te.TileEntityGristMill;
 import com.pyraliron.advancedtfctech.te.TileEntityPowerLoom;
 import com.pyraliron.advancedtfctech.te.TileEntityThresher;
@@ -51,20 +49,24 @@ public class AdvancedTFCTech {
 		MinecraftForge.EVENT_BUS.register(new com.pyraliron.advancedtfctech.util.handlers.EventHandler());
 		blockMetalMultiblock = new BlockATTMetalMultiblocks();
 		//OBJLoader.INSTANCE.addDomain("immersiveengineering:metalmultiblock/arcfurnace.obj");
-		MultiblockHandler.registerMultiblock(MultiblockPowerLoom.instance);
-		MultiblockHandler.registerMultiblock(MultiblockThresher.instance);
-		MultiblockHandler.registerMultiblock(MultiblockGristMill.instance);
+
 		//GameRegistry.registerTileEntity(TileEntityAdvancedNote.class, Reference.MOD_ID+"advanced_note_block"/*ModBlocks.ADVANCED_NOTE_BLOCK.getRegistryName()*/);
 	}
 	
 	@EventHandler
 	public static void init(FMLInitializationEvent event) {
+		MultiblockHandler.registerMultiblock(MultiblockPowerLoom.instance);
+		MultiblockHandler.registerMultiblock(MultiblockThresher.instance);
+		MultiblockHandler.registerMultiblock(MultiblockGristMill.instance);
+		MultiblockHandler.registerMultiblock(MultiblockDoughMixer.instance);
 		registerTile(TileEntityPowerLoom.class);
 		registerTile(TileEntityPowerLoom.TileEntityPowerLoomParent.class);
 		registerTile(TileEntityThresher.class);
 		registerTile(TileEntityThresher.TileEntityThresherParent.class);
 		registerTile(TileEntityGristMill.class);
 		registerTile(TileEntityGristMill.TileEntityGristMillParent.class);
+		registerTile(TileEntityDoughMixer.class);
+		registerTile(TileEntityDoughMixer.TileEntityDoughMixerParent.class);
 		proxy.registerRenderers();
 		NetworkRegistry.INSTANCE.registerGuiHandler(Instance, proxy);
 
